@@ -9,22 +9,29 @@
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-<header class="band">
-  <div class="wrap">
-    <img id="logo" class="logo" src="assets/fcs-logo-white.png" alt="Focused Community Strategies">
-    <span id="logo-text" class="logo-text" hidden>Focused Community Strategies</span>
-    <div class="band-text">
-      <h1>Logic Model</h1>
-      <p class="mission">Mission: to partner with local neighborhoods to provide innovative and holistic development that promotes flourishing communities and God’s Shalom.</p>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <img class="logo on-light" src="assets/fcs-logo-color.png" alt="Focused Community Strategies">
+      <img class="logo on-dark" src="assets/fcs-logo-white.png" alt="Focused Community Strategies">
+      <span id="logo-text" class="logo-text" hidden>Focused Community Strategies</span>
+      <h1 class="area-title" id="area-title">Logic Model</h1>
+      <div class="area-lead" id="area-lead"></div>
+      <label class="toggle" for="fcs-only"><input type="checkbox" id="fcs-only"> Programs FCS runs or owns only</label>
     </div>
-    <div class="tools"><button class="btn" id="print" hidden>Print or save as PDF</button></div>
-  </div>
-</header>
-<nav class="tabs-bar" aria-label="Logic model sections">
-  <div class="wrap"><div class="tabs" id="tabs" role="tablist"></div></div>
-</nav>
-<main><div class="wrap" id="app"></div></main>
-<footer><div class="wrap">Focused Community Strategies | Logic model, second draft</div></footer>
+    <div>
+      <div class="areas">
+        <div class="areas-label">FCS areas (click to filter):</div>
+        <div class="area-btns" id="area-btns"></div>
+      </div>
+      <div class="tools"><button class="btn" id="print" hidden>Print or save as PDF</button></div>
+    </div>
+  </header>
+  <main class="model-scroll">
+    <div class="model" id="model"></div>
+  </main>
+</div>
+<footer><div class="wrap"><span>Focused Community Strategies | Logic model, second draft</span><span>Each result is read separately in Historic South Atlanta and Thomasville Heights, never averaged.</span></div></footer>
 <script src="data/logic-model.js"></script>
 <script src="assets/app.js"></script>
 </body>

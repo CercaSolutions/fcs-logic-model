@@ -8,6 +8,7 @@
 //   program.moves    = measures the program moves today
 //   program.proposed = measures it is proposed for
 //   program.status   = "running" or "proposed"
+//   program.partners = partner ids from the partners list below; leave [] until FCS names one
 //   program.type     = "partnership" (FCS works with a partner who delivers),
 //                      "asset" (FCS owns it), "program" (FCS runs it), "confirm" (type or FCS' role not settled)
 //   measure.status   = "now" (FCS can count it today), "later" (waits on a data source), "held"
@@ -69,6 +70,32 @@ window.FCS_DATA = {
     later: { label: "Later", text: "Waits on a data source that does not exist yet" },
     held: { label: "Held", text: "On hold until the program or data is ready" }
   },
+
+  // Partners named for the programs below. Type groups are Cerca's working labels, not FCS'.
+  // "confirm: true" marks a partner the second draft lists as to confirm.
+  partnerTypes: [
+    "Schools and school operators",
+    "Early learning and youth organizations",
+    "Colleges and universities",
+    "Food access",
+    "Builders and lenders",
+    "Government",
+    "Legal services"
+  ],
+  partners: [
+    { id: "pbsa", name: "Purpose Built Schools Atlanta", type: "Schools and school operators" },
+    { id: "aps", name: "Atlanta Public Schools", type: "Schools and school operators" },
+    { id: "ymca", name: "YMCA", type: "Early learning and youth organizations" },
+    { id: "united-way", name: "United Way", type: "Early learning and youth organizations" },
+    { id: "qcc", name: "Quality Care for Children", type: "Early learning and youth organizations" },
+    { id: "geears", name: "Geears", type: "Early learning and youth organizations" },
+    { id: "emory", name: "Emory University", type: "Colleges and universities" },
+    { id: "urban-recipe", name: "Urban Recipe", type: "Food access" },
+    { id: "fortis", name: "Fortis Homes", type: "Builders and lenders" },
+    { id: "pinnacle", name: "Pinnacle", type: "Builders and lenders" },
+    { id: "fulton-tax", name: "Fulton County Tax Commissioner", type: "Government", confirm: true },
+    { id: "legal-aid", name: "Atlanta Legal Aid", type: "Legal services", confirm: true }
+  ],
 
   dependencies: {
     title: "What each area needs from the others",
@@ -159,10 +186,10 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Pre-K and Head Start seats at Slater", type: "partnership", status: "running", moves: ["EC1", "EC2", "EC3", "EC4"], proposed: [] },
-            { name: "Learning Spaces (drop-in early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [] },
-            { name: "Early Learning Ambassador", type: "program", status: "proposed", moves: [], proposed: ["EC1", "EC4"] },
-            { name: "Pathways to Promise (home-based early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [] }
+            { name: "Pre-K and Head Start seats at Slater", type: "partnership", status: "running", moves: ["EC1", "EC2", "EC3", "EC4"], proposed: [], partners: ["ymca", "pbsa"] },
+            { name: "Learning Spaces (drop-in early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [], partners: ["united-way", "ymca"] },
+            { name: "Early Learning Ambassador", type: "program", status: "proposed", moves: [], proposed: ["EC1", "EC4"], partners: ["geears"] },
+            { name: "Pathways to Promise (home-based early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [], partners: ["qcc"] }
           ]
         }
       ]
@@ -197,8 +224,8 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Attendance support through the Early Learning Ambassador", type: "program", status: "proposed", moves: [], proposed: ["ED1"] },
-            { name: "One table for the education partners", type: "partnership", status: "proposed", moves: [], proposed: ["ED2", "ED3"] }
+            { name: "Attendance support through the Early Learning Ambassador", type: "program", status: "proposed", moves: [], proposed: ["ED1"], partners: [] },
+            { name: "One table for the education partners", type: "partnership", status: "proposed", moves: [], proposed: ["ED2", "ED3"], partners: ["pbsa", "ymca", "aps", "united-way", "qcc"] }
           ]
         }
       ]
@@ -236,12 +263,12 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Carver Market and Community Grounds", type: "partnership", status: "running", moves: ["HW1"], proposed: [] },
-            { name: "Food co-op for seniors", type: "confirm", status: "running", moves: ["HW2"], proposed: [] },
-            { name: "Community Health Navigators", type: "program", status: "proposed", moves: [], proposed: ["HW3"] },
-            { name: "Bike clubs at Price Middle School", type: "program", status: "running", moves: ["HW4", "HW5", "HW6"], proposed: [] },
-            { name: "Summer camp", type: "confirm", status: "running", moves: ["HW7"], proposed: [] },
-            { name: "Enrichment fund and resources", type: "confirm", status: "running", moves: ["HW7"], proposed: [] }
+            { name: "Carver Market and Community Grounds", type: "partnership", status: "running", moves: ["HW1"], proposed: [], partners: [] },
+            { name: "Food co-op for seniors", type: "confirm", status: "running", moves: ["HW2"], proposed: [], partners: ["urban-recipe"] },
+            { name: "Community Health Navigators", type: "program", status: "proposed", moves: [], proposed: ["HW3"], partners: [] },
+            { name: "Bike clubs at Price Middle School", type: "program", status: "running", moves: ["HW4", "HW5", "HW6"], proposed: [], partners: [] },
+            { name: "Summer camp", type: "confirm", status: "running", moves: ["HW7"], proposed: [], partners: [] },
+            { name: "Enrichment fund and resources", type: "confirm", status: "running", moves: ["HW7"], proposed: [], partners: [] }
           ]
         }
       ]
@@ -290,24 +317,24 @@ window.FCS_DATA = {
         {
           name: "Entrepreneurship and small business growth",
           programs: [
-            { name: "StartMe", type: "partnership", status: "running", moves: ["EV1"], proposed: [] },
-            { name: "Southside Assembly", type: "partnership", status: "running", moves: ["EV2"], proposed: [] },
-            { name: "A CDFI", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"] }
+            { name: "StartMe", type: "partnership", status: "running", moves: ["EV1"], proposed: [], partners: ["emory"] },
+            { name: "Southside Assembly", type: "partnership", status: "running", moves: ["EV2"], proposed: [], partners: [] },
+            { name: "A CDFI", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
         {
           name: "Workforce development",
           programs: [
-            { name: "Employment connections", type: "partnership", status: "running", moves: ["EV3", "EV4", "EV5", "EV6"], proposed: [] },
-            { name: "Carver Market jobs", type: "partnership", status: "running", moves: ["EV7"], proposed: ["EV3", "EV4", "EV5", "EV6"] },
-            { name: "Micro-business spaces, Brownsville Point", type: "partnership", status: "proposed", moves: [], proposed: ["EV1", "EV2"] }
+            { name: "Employment connections", type: "partnership", status: "running", moves: ["EV3", "EV4", "EV5", "EV6"], proposed: [], partners: [] },
+            { name: "Carver Market jobs", type: "partnership", status: "running", moves: ["EV7"], proposed: ["EV3", "EV4", "EV5", "EV6"], partners: [] },
+            { name: "Micro-business spaces, Brownsville Point", type: "partnership", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
         {
           name: "Financial literacy",
           programs: [
-            { name: "Financial coaching", type: "partnership", status: "running", moves: ["EV8"], proposed: [] },
-            { name: "VITA tax credits", type: "partnership", status: "running", moves: ["EV8", "EV9"], proposed: [] }
+            { name: "Financial coaching", type: "partnership", status: "running", moves: ["EV8"], proposed: [], partners: [] },
+            { name: "VITA tax credits", type: "partnership", status: "running", moves: ["EV8", "EV9"], proposed: [], partners: [] }
           ]
         }
       ]
@@ -347,9 +374,9 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Rental portfolio", type: "asset", status: "running", moves: ["SH1", "SH2", "SH3"], proposed: ["SH4", "SH5", "SH6", "SH7"] },
-            { name: "Single-family homes and mortgage lending", type: "partnership", status: "running", moves: ["SH4", "SH5", "SH6", "SH7"], proposed: [] },
-            { name: "Brownsville Point (18 mixed-income rental units)", type: "asset", status: "running", moves: ["SH8"], proposed: [] }
+            { name: "Rental portfolio", type: "asset", status: "running", moves: ["SH1", "SH2", "SH3"], proposed: ["SH4", "SH5", "SH6", "SH7"], partners: [] },
+            { name: "Single-family homes and mortgage lending", type: "partnership", status: "running", moves: ["SH4", "SH5", "SH6", "SH7"], proposed: [], partners: ["fortis", "pinnacle"] },
+            { name: "Brownsville Point (18 mixed-income rental units)", type: "asset", status: "running", moves: ["SH8"], proposed: [], partners: [] }
           ]
         }
       ]
@@ -391,10 +418,10 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Legacy Home Preservation and Repair Program", type: "program", status: "running", moves: ["LR1", "LR2", "LR3"], proposed: [] },
-            { name: "Homestead exemption and property tax abatement", type: "partnership", status: "running", moves: ["LR4"], proposed: [] },
-            { name: "Title clearing for heirs’ property", type: "partnership", status: "running", moves: ["LR1", "LR2", "LR3", "LR4", "LR5"], proposed: [] },
-            { name: "Stepping Forward (basic needs for renters)", type: "confirm", status: "running", moves: ["LR6"], proposed: [] }
+            { name: "Legacy Home Preservation and Repair Program", type: "program", status: "running", moves: ["LR1", "LR2", "LR3"], proposed: [], partners: [] },
+            { name: "Homestead exemption and property tax abatement", type: "partnership", status: "running", moves: ["LR4"], proposed: [], partners: ["fulton-tax"] },
+            { name: "Title clearing for heirs’ property", type: "partnership", status: "running", moves: ["LR1", "LR2", "LR3", "LR4", "LR5"], proposed: [], partners: [] },
+            { name: "Stepping Forward (basic needs for renters)", type: "confirm", status: "running", moves: ["LR6"], proposed: [], partners: [] }
           ]
         }
       ]

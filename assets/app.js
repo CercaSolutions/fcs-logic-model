@@ -1,232 +1,330 @@
-// FCS logic model: renders window.FCS_DATA (data/logic-model.js) into the page.
+// FCS logic model: renders window.FCS_DATA (data/logic-model.js) in the digital logic model layout.
 (function () {
   "use strict";
   var D = window.FCS_DATA;
-  var app = document.getElementById("app");
-  var tabsEl = document.getElementById("tabs");
 
   function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
-  function h(html) { var t = document.createElement("template"); t.innerHTML = html.trim(); return t.content; }
+  var AREA_COLOR = { EC: "var(--a-ec)", ED: "var(--a-ed)", HW: "var(--a-hw)", EV: "var(--a-ev)", SH: "var(--a-sh)", LR: "var(--a-lr)" };
+  var LIGHT_TEXT = { HW: true, EV: true, SH: true };
 
-  var measureIndex = {};
-  D.results.forEach(function (r) { r.measures.forEach(function (m) { measureIndex[m.id] = m; }); });
-
-  function chip(id, sm) {
-    var m = measureIndex[id];
-    var st = m ? m.status : "now";
-    return '<span class="chip ' + st + (sm ? " sm" : "") + '">' + esc(id) + "</span>";
-  }
-
-  // ---- Views ----
-  var views = [{ key: "overview", label: "Overview" }, { key: "how-to-read", label: "How to read" }];
+  // ---- Index the data ----
+  var partners = {}, measures = {}, programs = [];
+  D.partners.forEach(function (p) { partners[p.id] = p; });
   D.results.forEach(function (r) {
-    views.push({ key: r.code.toLowerCase(), label: r.area.replace(/^Education: |^Housing: /, ""), code: r.code, result: r });
-  });
-
-  function renderTabs(active) {
-    tabsEl.innerHTML = views.map(function (v) {
-      return '<button class="tab" role="tab" id="tab-' + v.key + '" aria-selected="' + (v.key === active) + '" data-view="' + v.key + '">' +
-        (v.code ? '<span class="code">' + v.code + "</span>" : "") + esc(v.label) + "</button>";
-    }).join("");
-  }
-
-  function countAll(r) {
-    var p = 0; r.programGroups.forEach(function (g) { p += g.programs.length; });
-    var now = r.measures.filter(function (m) { return m.status === "now"; }).length;
-    return r.measures.length + " measures, " + now + " FCS can count now. " + p + " programs.";
-  }
-
-  function viewOverview() {
-    var cards = D.results.map(function (r) {
-      return '<button class="result-card" data-go="' + r.code.toLowerCase() + '">' +
-        '<span class="rid">' + esc(r.id) + "</span>" +
-        '<span class="rtext">' + esc(r.result) + "</span>" +
-        '<span class="rcount">' + esc(countAll(r)) + "</span>" +
-        '<span class="rarea">' + esc(r.area) + "</span></button>";
-    }).join("");
-
-    var dep = D.dependencies;
-    var head = "<tr><th>This area</th>" + dep.columns.map(function (c) {
-      return "<th>Depends on " + esc(c.area) + '<span class="named">' + esc(c.named) + "</span></th>";
-    }).join("") + "</tr>";
-    var body = dep.rows.map(function (row) {
-      return "<tr><th scope=\"row\">" + esc(row.area) + "</th>" + dep.columns.map(function (c) {
-        var cell = row.cells[c.area];
-        if (!cell) return "<td></td>";
-        var txt = cell.unwritten ? '<span class="unwritten">' + esc(cell.text) + "</span>" : esc(cell.text);
-        return "<td>" + txt + (cell.test ? '<span class="test-tag">TO TEST</span>' : "") + "</td>";
-      }).join("") + "</tr>";
-    }).join("");
-
-    return '<p class="eyebrow">The six results</p>' +
-      '<p class="place-note">' + esc(D.placeNote) + "</p>" +
-      '<div class="results-grid">' + cards + "</div>" +
-      '<section class="section"><h2>' + esc(dep.title) + "</h2>" +
-      '<p class="sub">' + esc(dep.subtitle) + "</p>" +
-      '<div class="table-scroll"><table class="deps"><thead>' + head + "</thead><tbody>" + body + "</tbody></table></div>" +
-      '<p class="foot-note">' + esc(dep.note) + "</p></section>";
-  }
-
-  function viewHow() {
-    var H = D.howToRead;
-    var steps = H.steps.map(function (s) {
-      return '<div class="step"><div class="n">' + s.n + '</div><h3>' + esc(s.name) + '</h3><p class="q">' + esc(s.q) + "</p><p>" + esc(s.text) + "</p></div>";
-    }).join("");
-    var types = Object.keys(D.types).map(function (k) {
-      var t = D.types[k];
-      return '<li><span class="ptype" style="min-width:86px">' + esc(t.label) + '</span><span>' + '<span class="desc">' + esc(t.text) + "</span></span></li>";
-    }).join("");
-    var ms = Object.keys(D.measureStatus).map(function (k) {
-      var t = D.measureStatus[k];
-      return '<li><span class="chip ' + k + '">' + (k === "now" ? "EC1" : k === "later" ? "EC3" : "XX") + "</span><span>" + esc(t.label) + '<span class="desc">' + esc(t.text) + "</span></span></li>";
-    }).join("");
-    return '<p class="eyebrow">How to read</p><h2 style="font-size:28px;margin-top:6px">How to read each model</h2>' +
-      '<p class="place-note" style="max-width:80ch">' + esc(H.intro) + "</p>" +
-      '<div class="steps">' + steps + "</div>" +
-      '<div class="section"><h2>Reading the symbols</h2><div class="legend">' +
-      '<div><h3>Program boxes</h3><ul>' +
-      '<li><span class="sw"></span><span>Running</span></li>' +
-      '<li><span class="sw dash"></span><span>Future or proposed</span></li>' + types + "</ul></div>" +
-      '<div><h3>Measure chips</h3><ul>' + ms + "</ul></div>" +
-      '<div><h3>Community indicators</h3><ul>' +
-      '<li><span class="sw" style="border-color:var(--accent)"></span><span>A neighborhood-wide number. FCS contributes to it and does not control it</span></li>' +
-      '<li><span class="sw dash" style="border-color:var(--accent)"></span><span>A number to watch, or no indicator yet</span></li>' +
-      "</ul></div></div>" +
-      '<p class="foot-note">' + esc(D.placeNote) + "</p></div>";
-  }
-
-  function viewArea(r) {
-    var ind = r.indicators.map(function (i) {
-      var dashed = i.gap || i.watch;
-      return '<div class="ind' + (dashed ? " dashed" : "") + '">' +
-        (i.gap ? '<span class="gap-label">NO INDICATOR YET</span>' : '<span class="iid">' + esc(i.id) + "</span>") +
-        "<span>" + esc(i.text) + "</span>" +
-        (i.status ? '<span><span class="chip sm ' + i.status + '">' + esc(D.measureStatus[i.status].label) + "</span></span>" : "") +
-        (i.note ? '<span class="note">' + esc(i.note) + "</span>" : "") + "</div>";
-    }).join("");
-
-    var measures = r.measures.map(function (m) {
-      return '<button class="measure" data-m="' + m.id + '" aria-pressed="false">' + chip(m.id) +
-        "<span>" + esc(m.text) + '<span class="mstatus">' + esc(D.measureStatus[m.status].label) + "</span></span></button>";
-    }).join("");
-
-    var pi = 0;
-    var programs = r.programGroups.map(function (g) {
-      return (g.name ? '<div class="group-label">' + esc(g.name) + "</div>" : "") + g.programs.map(function (p) {
-        var key = r.code + "-p" + (pi++);
-        var links = "";
-        if (p.moves.length) links += '<div class="plinks"><span class="lbl">Moves measures:</span>' + p.moves.map(function (id) { return chip(id, true); }).join("") + "</div>";
-        if (p.proposed.length) links += '<div class="plinks"><span class="lbl">Proposed for:</span>' + p.proposed.map(function (id) { return chip(id, true); }).join("") + "</div>";
-        return '<button class="prog ' + p.status + '" data-p="' + key + '" data-links="' + p.moves.concat(p.proposed).join(" ") + '" aria-pressed="false">' +
-          '<span class="pname">' + esc(p.name) + "</span>" + links +
-          '<span class="pmeta"><span class="ptype">' + esc(D.types[p.type].label) + '</span><span class="pstat">' + (p.status === "proposed" ? "Future or proposed" : "Running") + "</span></span></button>";
-      }).join("");
-    }).join("");
-
-    return '<div class="model-head"><div><p class="eyebrow">Logic model | ' + esc(r.id) + "</p><h2>" + esc(r.area) + "</h2></div>" +
-      '<div class="lead-box">Leads this model<strong>' + esc(r.lead.name) + "</strong>" + esc(r.lead.title) + "</div></div>" +
-      '<p class="logic"><b>THE LOGIC</b>' + esc(r.logic) + "</p>" +
-      '<div class="link-hint" id="hint">Select a measure to see which programs move it, or a program to see its measures.</div>' +
-      '<div class="pathway" id="pathway">' +
-      '<div class="col"><div class="col-head"><span class="num">1</span><span>Desired result</span></div>' +
-      '<div class="result-panel"><span class="rid">' + esc(r.id) + '</span><span class="rtext">' + esc(r.result) + "</span>" +
-      '<span class="rel"><b>' + esc(r.relation.kind) + "</b>" + esc(r.relation.id) + " " + esc(r.relation.text) + "</span>" +
-      '<span class="rplace">Read separately in Historic South Atlanta and Thomasville Heights</span></div></div>' +
-      '<div class="col"><div class="col-head"><span class="num">2</span><span>Community indicators</span></div>' + ind + "</div>" +
-      '<div class="col"><div class="col-head"><span class="num">3</span><span>What needs to be true</span></div>' +
-      '<div class="true-text">' + esc(r.needsTrue) + '</div><div class="qs-label">' + esc(r.questionsLabel) + '</div><ul class="qs">' +
-      r.questions.map(function (q) { return "<li>" + esc(q) + "</li>"; }).join("") + "</ul></div>" +
-      '<div class="col c-measures"><div class="col-head"><span class="num">4</span><span>What measures need to be achieved</span></div>' + measures + "</div>" +
-      '<div class="col c-programs"><div class="col-head"><span class="num">5</span><span>What programs are working to impact these measures</span></div>' + programs +
-      '<div class="new-init"><b>New initiative</b>Which measures will it move?</div></div>' +
-      "</div>" +
-      '<div class="legend-strip"><span><span class="sw"></span>Running</span><span><span class="sw dash"></span>Future or proposed</span>' +
-      '<span><span class="chip sm now">' + r.code + '1</span>Start now: FCS can count it today</span>' +
-      '<span><span class="chip sm later">' + r.code + '1</span>Later: waits on a data source</span></div>';
-  }
-
-  // ---- Linking ----
-  var selection = null;
-  function clearLinks(path) {
-    path.classList.remove("linking");
-    path.querySelectorAll(".lit, .sel").forEach(function (el) { el.classList.remove("lit", "sel"); el.setAttribute("aria-pressed", "false"); });
-    var hint = document.getElementById("hint");
-    if (hint) hint.textContent = "Select a measure to see which programs move it, or a program to see its measures.";
-    selection = null;
-  }
-  function setHint(text) {
-    var hint = document.getElementById("hint");
-    hint.innerHTML = "";
-    hint.appendChild(document.createTextNode(text));
-    var b = document.createElement("button"); b.className = "clear"; b.textContent = "Show all"; b.id = "clear-sel";
-    b.addEventListener("click", function () { clearLinks(document.getElementById("pathway")); });
-    hint.appendChild(b);
-  }
-  function selectMeasure(path, id) {
-    clearLinks(path); selection = "m:" + id; path.classList.add("linking");
-    var me = path.querySelector('.measure[data-m="' + id + '"]'); me.classList.add("lit", "sel"); me.setAttribute("aria-pressed", "true");
-    var n = 0;
-    path.querySelectorAll(".prog").forEach(function (p) {
-      if ((" " + p.dataset.links + " ").indexOf(" " + id + " ") > -1) { p.classList.add("lit"); n++; }
+    r.measures.forEach(function (m) { measures[m.id] = { m: m, r: r }; });
+    var i = 0;
+    r.programGroups.forEach(function (g) {
+      g.programs.forEach(function (p) {
+        programs.push({ key: r.code + "-" + (i++), p: p, r: r, group: g.name });
+      });
     });
-    setHint(id + ": " + n + (n === 1 ? " program works" : " programs work") + " toward this measure.");
+  });
+  function areaShort(r) { return r.area.replace(/^Education: |^Housing: /, ""); }
+
+  // ---- State ----
+  var S = { area: "EC", fcsOnly: false, program: null, partner: null, highlight: null };
+  try { var saved = localStorage.getItem("fcs-area"); if (saved) S.area = saved; } catch (e) {}
+  var hashArea = (location.hash || "").replace("#", "").toUpperCase();
+  if (hashArea === "ALL" || D.results.some(function (r) { return r.code === hashArea; })) S.area = hashArea === "ALL" ? "all" : hashArea;
+
+  // ---- Filtering ----
+  function baseProgs() {
+    return programs.filter(function (x) {
+      if (S.area !== "all" && x.r.code !== S.area) return false;
+      if (S.fcsOnly && !(x.p.type === "program" || x.p.type === "asset")) return false;
+      return true;
+    });
   }
-  function selectProgram(path, key) {
-    clearLinks(path); selection = "p:" + key; path.classList.add("linking");
-    var pe = path.querySelector('.prog[data-p="' + key + '"]'); pe.classList.add("lit", "sel"); pe.setAttribute("aria-pressed", "true");
-    var ids = pe.dataset.links.split(" ").filter(Boolean);
-    ids.forEach(function (id) { var m = path.querySelector('.measure[data-m="' + id + '"]'); if (m) m.classList.add("lit"); });
-    setHint(pe.querySelector(".pname").textContent + ": " + ids.length + (ids.length === 1 ? " measure." : " measures."));
+  function shownProgs() {
+    return baseProgs().filter(function (x) {
+      if (S.program) return x.key === S.program;
+      if (S.partner === "__none") return !x.p.partners.length;
+      if (S.partner) return x.p.partners.indexOf(S.partner) > -1;
+      return true;
+    });
+  }
+  function linksOf(x) { return x.p.moves.concat(x.p.proposed); }
+
+  // ---- Render ----
+  var el = {
+    title: document.getElementById("area-title"),
+    lead: document.getElementById("area-lead"),
+    btns: document.getElementById("area-btns"),
+    fcs: document.getElementById("fcs-only"),
+    model: document.getElementById("model")
+  };
+
+  function renderAreaBar() {
+    var html = D.results.map(function (r) {
+      return '<button class="area-btn' + (LIGHT_TEXT[r.code] ? " light-c" : "") + '" style="--c:' + AREA_COLOR[r.code] + '" data-area="' + r.code + '" aria-pressed="' + (S.area === r.code) + '">' + esc(r.area) + "</button>";
+    }).join("");
+    html += '<button class="area-btn all" data-area="all" aria-pressed="' + (S.area === "all") + '">All areas</button>';
+    el.btns.innerHTML = html;
+    if (S.area === "all") {
+      el.title.textContent = "All areas";
+      el.lead.innerHTML = "";
+    } else {
+      var r = D.results.filter(function (x) { return x.code === S.area; })[0];
+      el.title.textContent = r.area;
+      el.lead.innerHTML = "Leads this model: <strong>" + esc(r.lead.name) + "</strong>, " + esc(r.lead.title);
+    }
   }
 
-  // ---- Routing ----
-  function current() {
-    var k = (location.hash || "").replace("#", "");
-    return views.some(function (v) { return v.key === k; }) ? k : "overview";
-  }
-  function show(key) {
-    renderTabs(key);
-    var v = views.filter(function (x) { return x.key === key; })[0];
-    app.innerHTML = "";
-    app.appendChild(h(key === "overview" ? viewOverview() : key === "how-to-read" ? viewHow() : viewArea(v.result)));
-    document.title = "FCS Logic Model";
-  }
-  function go(key) {
-    if (location.hash !== "#" + key) { try { location.hash = key; } catch (e) { show(key); } } else { show(key); }
-    window.scrollTo(0, 0);
+  var HEADS = [
+    { label: "Partners", tip: "Organizations that deliver or support FCS’ programs, grouped by type. Click a group to see who is in it, then a partner to see the programs they support." },
+    { label: "Programs", tip: D.howToRead.steps[4].text + " A dashed box is future or proposed." },
+    { label: "Measures", tip: D.howToRead.steps[3].text + " A solid chip is a measure FCS can count now; a dashed chip waits on a data source." },
+    { label: "What needs to be true", tip: D.howToRead.steps[2].text },
+    { label: "Community indicators", tip: D.howToRead.steps[1].text },
+    { label: "Desired result", tip: D.howToRead.steps[0].text }
+  ];
+
+  function colPartners() {
+    var base = baseProgs();
+    var html = "";
+    if (S.partner) {
+      html += '<button class="back" data-back="partner">← Back to all partners</button>';
+    }
+    // Partner ids reachable from what is on screen
+    var scope = S.program ? shownProgs() : base;
+    var ids = {};
+    scope.forEach(function (x) { x.p.partners.forEach(function (id) { ids[id] = true; }); });
+    D.partnerTypes.forEach(function (t) {
+      var members = D.partners.filter(function (p) { return p.type === t && ids[p.id]; });
+      if (!members.length) return;
+      var selHere = S.partner && partners[S.partner] && partners[S.partner].type === t;
+      html += '<button class="pgroup' + (selHere ? " open" : "") + '" data-group="' + esc(t) + '"><span>' + esc(t) +
+        (selHere ? '<span class="sel-name">' + esc(partners[S.partner].name) + "</span>" : "") +
+        '</span><span class="count">' + members.length + "</span></button>";
+    });
+    var none = scope.filter(function (x) { return !x.p.partners.length; }).length;
+    if (none && !S.program) {
+      html += '<button class="pgroup none' + (S.partner === "__none" ? " open" : "") + '" data-none="1"><span>Partner not named yet</span><span class="count" title="Programs with no partner named">' + none + "</span></button>";
+    }
+    if (!html) html = '<div class="empty">' + (S.program ? "No partner named yet for this program." : "No partners named yet for these programs.") + "</div>";
+    return html;
   }
 
-  tabsEl.addEventListener("click", function (e) { var b = e.target.closest(".tab"); if (b) go(b.dataset.view); });
-  app.addEventListener("click", function (e) {
-    var card = e.target.closest("[data-go]"); if (card) { go(card.dataset.go); return; }
-    var path = document.getElementById("pathway"); if (!path) return;
-    var m = e.target.closest(".measure");
-    if (m) { selection === "m:" + m.dataset.m ? clearLinks(path) : selectMeasure(path, m.dataset.m); return; }
-    var p = e.target.closest(".prog");
-    if (p) { selection === "p:" + p.dataset.p ? clearLinks(path) : selectProgram(path, p.dataset.p); }
+  function colPrograms(shown) {
+    var html = "";
+    if (S.program) {
+      var r0 = shown[0] && shown[0].r;
+      html += '<button class="back" data-back="program">← Back to ' + esc(S.area === "all" ? "all" : areaShort(r0)) + " programs</button>";
+    }
+    var lastGroup = null, lastArea = null;
+    shown.forEach(function (x) {
+      if (S.area === "all" && x.r.code !== lastArea) { html += '<div class="group-name">' + esc(x.r.area) + "</div>"; lastArea = x.r.code; lastGroup = null; }
+      if (S.area !== "all" && x.group && x.group !== lastGroup) { html += '<div class="group-name">' + esc(x.group) + "</div>"; lastGroup = x.group; }
+      var lit = S.highlight && S.highlight(x);
+      html += '<div class="prog ' + x.p.status + (lit ? " lit" : "") + (S.program === x.key ? " sel" : "") + '" style="--ac:' + AREA_COLOR[x.r.code] + '" data-prog="' + x.key + '" role="button" tabindex="0">' +
+        '<div class="pbody"><span class="pname">' + esc(x.p.name) + '</span><span class="pmeta">' + esc(D.types[x.p.type].label) + " · " + (x.p.status === "proposed" ? "Future or proposed" : "Running") + "</span></div>" +
+        '<div class="pfoot"><button class="learn" data-learn="' + x.key + '">Learn more</button></div></div>';
+    });
+    if (!shown.length) html += '<div class="empty">No programs match. Clear the filter to see them all.</div>';
+    return html;
+  }
+
+  function colMeasures(shown, filtering) {
+    var ids = [];
+    if (filtering) {
+      shown.forEach(function (x) { linksOf(x).forEach(function (id) { if (ids.indexOf(id) < 0) ids.push(id); }); });
+      // keep the model's own order
+      var order = Object.keys(measures);
+      ids.sort(function (a, b) { return order.indexOf(a) - order.indexOf(b); });
+    } else {
+      D.results.forEach(function (r) {
+        if (S.area !== "all" && r.code !== S.area) return;
+        r.measures.forEach(function (m) {
+          if (S.fcsOnly && !shown.some(function (x) { return linksOf(x).indexOf(m.id) > -1; })) return;
+          ids.push(m.id);
+        });
+      });
+    }
+    if (!ids.length) return '<div class="empty">No measures linked yet.</div>';
+    var lastArea = null;
+    return ids.map(function (id) {
+      var e = measures[id], m = e.m, head = "";
+      if (S.area === "all" && e.r.code !== lastArea) { head = '<div class="group-name">' + esc(areaShort(e.r)) + "</div>"; lastArea = e.r.code; }
+      return head + '<div class="item measure"><span class="chip ' + m.status + '">' + esc(m.id) + "</span><span>" + esc(m.text) +
+        '<span class="mstatus">' + esc(D.measureStatus[m.status].label) + "</span></span></div>";
+    }).join("");
+  }
+
+  function areasShown(shown, filtering) {
+    if (!filtering) return D.results.filter(function (r) { return S.area === "all" || r.code === S.area; });
+    var codes = {};
+    shown.forEach(function (x) { codes[x.r.code] = true; });
+    return D.results.filter(function (r) { return codes[r.code]; });
+  }
+
+  function colTrue(rs) {
+    return rs.map(function (r) {
+      return '<div class="item"><span class="area-tag">' + esc(areaShort(r)) + '</span><span class="true-text">' + esc(r.needsTrue) + "</span></div>" +
+        r.questions.map(function (q) { return '<div class="item q">' + esc(q) + "</div>"; }).join("");
+    }).join("") || '<div class="empty">Nothing to show.</div>';
+  }
+  function colIndicators(rs) {
+    return rs.map(function (r) {
+      return r.indicators.map(function (i, n) {
+        var tag = n === 0 && rs.length > 1 ? '<span class="area-tag">' + esc(areaShort(r)) + "</span>" : "";
+        if (i.gap) return '<div class="item gap">' + tag + '<span class="iid">No indicator yet</span>' + esc(i.text) + (i.note ? '<span class="ind-note">' + esc(i.note) + "</span>" : "") + "</div>";
+        return '<div class="item">' + tag + '<span class="iid">' + esc(i.id) + "</span>" + esc(i.text) +
+          ' <span class="chip ' + i.status + '" style="min-width:0;margin-left:4px">' + esc(D.measureStatus[i.status].label) + "</span>" +
+          (i.note ? '<span class="ind-note">' + esc(i.note) + "</span>" : "") + "</div>";
+      }).join("");
+    }).join("") || '<div class="empty">Nothing to show.</div>';
+  }
+  function colResult(rs) {
+    if (!rs.length) return '<div class="empty">Nothing to show.</div>';
+    return rs.map(function (r) {
+      return '<div class="item result"><span class="rid">' + esc(r.id) + '</span><span class="rtext">' + esc(r.result) + "</span>" +
+        '<span class="rel">' + esc(r.relation.kind) + ": " + esc(r.relation.id) + " " + esc(r.relation.text) + "</span></div>";
+    }).join("") + '<div class="place">' + esc(D.placeNote) + "</div>";
+  }
+
+  function render() {
+    closePop();
+    renderAreaBar();
+    el.fcs.checked = S.fcsOnly;
+    var shown = shownProgs();
+    var filtering = !!(S.program || S.partner);
+    var rs = areasShown(shown, filtering);
+    var cols = [colPartners(), colPrograms(shown), colMeasures(shown, filtering), colTrue(rs), colIndicators(rs), colResult(rs)];
+    var heads = HEADS.map(function (h, i) {
+      return '<div class="head h' + (i + 1) + '">' + esc(h.label) + '<button class="info" data-tip="' + esc(h.tip) + '" aria-label="About ' + esc(h.label) + '">i</button></div>';
+    }).join("");
+    el.model.innerHTML = heads + cols.map(function (c, i) { return '<div class="col" data-col="' + i + '">' + c + "</div>"; }).join("");
+  }
+
+  // ---- Popover, tooltip, modal ----
+  var pop = null, tip = null;
+  function closePop() { if (pop) { pop.remove(); pop = null; document.querySelectorAll(".prog.lit").forEach(function (c) { c.classList.remove("lit"); }); } document.querySelectorAll(".pgroup.open").forEach(function (b) { if (!S.partner) b.classList.remove("open"); }); }
+  function place(box, anchor) {
+    var a = anchor.getBoundingClientRect(), w = box.offsetWidth, h = box.offsetHeight;
+    var left = Math.min(a.right + 8, window.innerWidth - w - 12); if (left < 12) left = 12;
+    var top = Math.min(a.top, window.innerHeight - h - 12); if (top < 12) top = 12;
+    box.style.left = left + "px"; box.style.top = top + "px";
+  }
+  function openGroup(btn, type) {
+    closePop();
+    var scope = baseProgs(), ids = {};
+    scope.forEach(function (x) { x.p.partners.forEach(function (id) { ids[id] = true; }); });
+    var members = D.partners.filter(function (p) { return p.type === type && ids[p.id]; });
+    pop = document.createElement("div");
+    pop.className = "pop"; pop.setAttribute("role", "dialog"); pop.setAttribute("aria-label", type);
+    pop.innerHTML = '<div class="pop-title">' + esc(type) + '</div><div class="pop-sub">Click a partner to see the programs they support</div>' +
+      members.map(function (p) {
+        return '<button class="pop-item" data-partner="' + p.id + '"><span>' + esc(p.name) + "</span>" + (p.confirm ? '<span class="confirm-tag">TO CONFIRM</span>' : "") + "</button>";
+      }).join("");
+    document.body.appendChild(pop);
+    place(pop, btn);
+    btn.classList.add("open");
+    var inGroup = {}; members.forEach(function (p) { inGroup[p.id] = true; });
+    document.querySelectorAll(".prog[data-prog]").forEach(function (card) {
+      var x = programs.filter(function (y) { return y.key === card.dataset.prog; })[0];
+      if (x && x.p.partners.some(function (id) { return inGroup[id]; })) card.classList.add("lit");
+    });
+    var first = pop.querySelector(".pop-item"); if (first) first.focus();
+  }
+  function showTip(btn) {
+    hideTip();
+    tip = document.createElement("div"); tip.className = "tip"; tip.textContent = btn.dataset.tip;
+    document.body.appendChild(tip);
+    var a = btn.getBoundingClientRect();
+    var left = Math.min(Math.max(12, a.left - 20), window.innerWidth - tip.offsetWidth - 12);
+    tip.style.left = left + "px"; tip.style.top = (a.bottom + 8) + "px";
+  }
+  function hideTip() { if (tip) { tip.remove(); tip = null; } }
+
+  var shade = null, lastFocus = null;
+  function openModal(key) {
+    var x = programs.filter(function (y) { return y.key === key; })[0]; if (!x) return;
+    lastFocus = document.activeElement;
+    var p = x.p;
+    var pl = p.partners.length
+      ? p.partners.map(function (id) { var q = partners[id]; return '<button class="pchip" data-partner="' + id + '">' + esc(q.name) + (q.confirm ? " (to confirm)" : "") + "</button>"; }).join("")
+      : '<span style="color:var(--muted)">No partner named yet</span>';
+    function mlist(ids) {
+      return '<ul class="mlist">' + ids.map(function (id) { var m = measures[id].m; return '<li class="measure"><span class="chip ' + m.status + '">' + esc(id) + "</span><span>" + esc(m.text) + "</span></li>"; }).join("") + "</ul>";
+    }
+    shade = document.createElement("div"); shade.className = "modal-shade";
+    shade.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" style="--ac:' + AREA_COLOR[x.r.code] + '">' +
+      '<div class="modal-head"><h2 id="m-title">' + esc(p.name) + '</h2><button class="close" id="m-close" aria-label="Close">×</button></div>' +
+      '<div class="modal-body"><dl class="kv">' +
+      "<dt>Area</dt><dd>" + esc(x.r.area) + (x.group ? ", " + esc(x.group) : "") + "</dd>" +
+      "<dt>Type</dt><dd>" + esc(D.types[p.type].label) + ": " + esc(D.types[p.type].text) + "</dd>" +
+      "<dt>Status</dt><dd>" + (p.status === "proposed" ? "Future or proposed" : "Running") + "</dd>" +
+      "<dt>Partners</dt><dd>" + pl + "</dd></dl>" +
+      (p.moves.length ? '<div><div class="sub-label" style="padding-left:0">Moves measures</div>' + mlist(p.moves) + "</div>" : "") +
+      (p.proposed.length ? '<div><div class="sub-label" style="padding-left:0">Proposed for</div>' + mlist(p.proposed) + "</div>" : "") +
+      "</div></div>";
+    document.body.appendChild(shade);
+    document.getElementById("m-close").focus();
+  }
+  function closeModal() { if (shade) { shade.remove(); shade = null; if (lastFocus) lastFocus.focus(); } }
+
+  // ---- Events ----
+  function setArea(a) {
+    S.area = a; S.program = null; S.partner = null; S.highlight = null;
+    try { localStorage.setItem("fcs-area", a); } catch (e) {}
+    render();
+  }
+  el.btns.addEventListener("click", function (e) { var b = e.target.closest("[data-area]"); if (b) setArea(b.dataset.area); });
+  el.fcs.addEventListener("change", function () { S.fcsOnly = el.fcs.checked; S.program = null; S.partner = null; render(); });
+
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    if (shade && (t === shade || t.closest("#m-close"))) { closeModal(); return; }
+    var chipP = t.closest(".pchip[data-partner]");
+    if (chipP) { closeModal(); S.partner = chipP.dataset.partner; S.program = null; render(); return; }
+    if (shade) return;
+
+    var info = t.closest(".info");
+    if (info) { tip ? hideTip() : showTip(info); return; }
+    hideTip();
+
+    var pi = t.closest(".pop-item");
+    if (pi) { S.partner = pi.dataset.partner; S.program = null; render(); return; }
+    if (pop && !t.closest(".pop") && !t.closest(".pgroup")) closePop();
+
+    var g = t.closest(".pgroup[data-group]");
+    if (g) { pop && g.classList.contains("open") && !S.partner ? closePop() : openGroup(g, g.dataset.group); return; }
+    var none = t.closest(".pgroup[data-none]");
+    if (none) { S.partner = S.partner === "__none" ? null : "__none"; S.program = null; render(); return; }
+
+    var back = t.closest("[data-back]");
+    if (back) { if (back.dataset.back === "partner") S.partner = null; else S.program = null; render(); return; }
+
+    var learn = t.closest("[data-learn]");
+    if (learn) { openModal(learn.dataset.learn); return; }
+    var prog = t.closest(".prog[data-prog]");
+    if (prog) { S.program = S.program === prog.dataset.prog ? null : prog.dataset.prog; render(); }
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { var path = document.getElementById("pathway"); if (path) clearLinks(path); }
+    if (e.key === "Escape") { if (shade) closeModal(); else if (pop) closePop(); else hideTip(); }
+    if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches(".prog[data-prog]")) {
+      e.preventDefault(); var k = e.target.dataset.prog; S.program = S.program === k ? null : k; render();
+    }
   });
-  window.addEventListener("hashchange", function () { show(current()); });
+  window.addEventListener("resize", function () { closePop(); hideTip(); });
+  window.addEventListener("scroll", function () { closePop(); hideTip(); }, true);
+  window.addEventListener("hashchange", function () {
+    var h = (location.hash || "").replace("#", "").toUpperCase();
+    if (h === "ALL") setArea("all"); else if (D.results.some(function (r) { return r.code === h; })) setArea(h);
+  });
 
   // Print works on the hosted site; the private preview frame cannot open the print dialog.
   var printBtn = document.getElementById("print");
   if (printBtn) {
-    var canPrint = /github\.io$/.test(location.hostname) || location.protocol === "file:" || location.hostname === "localhost";
-    printBtn.hidden = !canPrint;
+    printBtn.hidden = !(/github\.io$/.test(location.hostname) || location.protocol === "file:" || location.hostname === "localhost");
     printBtn.addEventListener("click", function () { window.print(); });
   }
+  // Logos fall back to the organization name if the files are missing.
+  document.querySelectorAll(".logo").forEach(function (img) {
+    img.addEventListener("error", function () { document.querySelectorAll(".logo").forEach(function (i) { i.remove(); }); document.getElementById("logo-text").hidden = false; });
+  });
 
-  // Logo falls back to the organization name until the logo file is in assets/.
-  var logo = document.getElementById("logo");
-  if (logo) {
-    logo.addEventListener("error", function () { logo.hidden = true; document.getElementById("logo-text").hidden = false; });
-    if (logo.complete && !logo.naturalWidth) { logo.hidden = true; document.getElementById("logo-text").hidden = false; }
-  }
-
-  show(current());
+  render();
 })();
