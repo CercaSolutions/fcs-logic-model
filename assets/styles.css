@@ -90,7 +90,7 @@ button { font: inherit; color: inherit; }
 .area-btn[aria-pressed="true"] { background: var(--c); color: #FFFFFF; font-weight: 700; }
 .area-btn.light-c[aria-pressed="true"] { color: #1E1E1E; }
 .area-btn.all { --c: var(--slate); }
-.tools { margin-top: 10px; display: flex; justify-content: flex-end; }
+.tools { margin-top: 10px; display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
 .btn { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 6px 14px; cursor: pointer; font-size: 13px; min-height: 34px; }
 .btn:hover { border-color: var(--teal); }
 
@@ -209,3 +209,23 @@ footer .wrap { padding-block: 16px; font-size: 12px; color: var(--muted); displa
 @media (prefers-reduced-motion: no-preference) {
   .prog, .pgroup, .area-btn { transition: background-color 120ms, box-shadow 120ms; }
 }
+
+/* Dependencies */
+.deps-line { font-size: 13px; max-width: 62ch; display: grid; gap: 4px; }
+.deps-line .dl-label { font-weight: 700; color: var(--fg); }
+.deps-line ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.deps-line li { color: var(--muted); }
+.dep-go { background: none; border: 0; padding: 0; color: var(--title); font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.dep-go:hover { text-decoration-thickness: 2px; }
+.test-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; border: 1px dashed var(--title); color: var(--title); border-radius: 3px; padding: 0 5px; margin-left: 6px; vertical-align: 1px; }
+.unwritten { font-style: italic; }
+.modal.wide { max-width: 980px; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+table.deps { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 13px; }
+table.deps th, table.deps td { border-bottom: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
+table.deps thead th { background: var(--panel); }
+table.deps thead th .named { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 2px; }
+table.deps tbody th { width: 150px; }
+table.deps tr:last-child th, table.deps tr:last-child td { border-bottom: 0; }
+.modal-note { font-size: 12px; color: var(--muted); margin: 0; }
+@media print { #connect { display: none !important; } }

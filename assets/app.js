@@ -53,8 +53,21 @@
     lead: document.getElementById("area-lead"),
     btns: document.getElementById("area-btns"),
     fcs: document.getElementById("fcs-only"),
-    model: document.getElementById("model")
+    model: document.getElementById("model"),
+    deps: document.getElementById("area-deps")
   };
+  var DEP_AREA = { "Economic Vitality": "EV", "Stable Homes": "SH", "Early Childhood": "EC", "Health and Wellness": "HW", "Elementary": "ED", "Legacy Residents": "LR" };
+  function depLine(r) {
+    var row = D.dependencies.rows.filter(function (x) { return x.area === areaShort(r); })[0];
+    if (!row) return "";
+    var items = D.dependencies.columns.map(function (c) {
+      var cell = row.cells[c.area]; if (!cell) return "";
+      var code = DEP_AREA[c.area];
+      var reason = cell.unwritten ? '<span class="unwritten">' + esc(cell.text) + "</span>" : esc(cell.text);
+      return '<li><button class="dep-go" data-area="' + code + '">' + esc(c.area) + "</button>: " + reason + (cell.test ? '<span class="test-tag">TO TEST</span>' : "") + "</li>";
+    }).join("");
+    return items ? '<span class="dl-label">This area depends on:</span><ul>' + items + "</ul>" : "";
+  }
 
   function renderAreaBar() {
     var html = D.results.map(function (r) {
@@ -65,10 +78,12 @@
     if (S.area === "all") {
       el.title.textContent = "All areas";
       el.lead.innerHTML = "";
+      el.deps.innerHTML = ""; el.deps.hidden = true;
     } else {
       var r = D.results.filter(function (x) { return x.code === S.area; })[0];
       el.title.textContent = r.area;
       el.lead.innerHTML = "Leads this model: <strong>" + esc(r.lead.name) + "</strong>, " + esc(r.lead.title);
+      el.deps.innerHTML = depLine(r); el.deps.hidden = !el.deps.innerHTML;
     }
   }
 
@@ -263,6 +278,26 @@
     document.body.appendChild(shade);
     document.getElementById("m-close").focus();
   }
+  function openConnect() {
+    lastFocus = document.activeElement;
+    var dep = D.dependencies;
+    var head = "<tr><th>This area</th>" + dep.columns.map(function (c) {
+      return "<th>Depends on " + esc(c.area) + '<span class="named">' + esc(c.named) + "</span></th>";
+    }).join("") + "</tr>";
+    var body = dep.rows.map(function (row) {
+      return '<tr><th scope="row"><button class="dep-go" data-area="' + DEP_AREA[row.area] + '">' + esc(row.area) + "</button></th>" + dep.columns.map(function (c) {
+        var cell = row.cells[c.area]; if (!cell) return "<td></td>";
+        return "<td>" + (cell.unwritten ? '<span class="unwritten">' + esc(cell.text) + "</span>" : esc(cell.text)) + (cell.test ? '<span class="test-tag">TO TEST</span>' : "") + "</td>";
+      }).join("") + "</tr>";
+    }).join("");
+    shade = document.createElement("div"); shade.className = "modal-shade";
+    shade.innerHTML = '<div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="m-title">' +
+      '<div class="modal-head"><div><h2 id="m-title">' + esc(dep.title) + '</h2><p class="modal-note" style="margin-top:4px">' + esc(dep.subtitle) + '</p></div><button class="close" id="m-close" aria-label="Close">\u00d7</button></div>' +
+      '<div class="modal-body"><div class="table-scroll"><table class="deps"><thead>' + head + "</thead><tbody>" + body + "</tbody></table></div>" +
+      '<p class="modal-note">' + esc(dep.note) + "</p></div></div>";
+    document.body.appendChild(shade);
+    document.getElementById("m-close").focus();
+  }
   function closeModal() { if (shade) { shade.remove(); shade = null; if (lastFocus) lastFocus.focus(); } }
 
   // ---- Events ----
@@ -277,6 +312,9 @@
   document.addEventListener("click", function (e) {
     var t = e.target;
     if (shade && (t === shade || t.closest("#m-close"))) { closeModal(); return; }
+    var go = t.closest(".dep-go");
+    if (go) { closeModal(); setArea(go.dataset.area); window.scrollTo(0, 0); return; }
+    if (t.closest("#connect")) { openConnect(); return; }
     var chipP = t.closest(".pchip[data-partner]");
     if (chipP) { closeModal(); S.partner = chipP.dataset.partner; S.program = null; render(); return; }
     if (shade) return;
