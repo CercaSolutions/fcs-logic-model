@@ -261,8 +261,8 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Carver Market and Community Grounds", type: "partnership", status: "running", moves: ["HW1"], proposed: [], partners: [] },
-            { name: "Food co-op for seniors", type: "confirm", status: "running", moves: ["HW2"], proposed: [], partners: ["urban-recipe"] },
+            { name: "Carver Market and Community Grounds", type: "program", status: "running", moves: ["HW1"], proposed: [], partners: [] },
+            { name: "Food co-op for seniors", type: "program", status: "running", moves: ["HW2"], proposed: [], partners: ["urban-recipe"] },
             { name: "Community Health Navigators", type: "program", status: "proposed", moves: [], proposed: ["HW3"], partners: [] },
             { name: "Bike clubs at Price Middle School", type: "program", status: "running", moves: ["HW4", "HW5", "HW6"], proposed: [], partners: [] },
             { name: "Summer camp", type: "confirm", status: "running", moves: ["HW7"], proposed: [], partners: [] },
@@ -316,7 +316,7 @@ window.FCS_DATA = {
           name: "Entrepreneurship and small business growth",
           programs: [
             { name: "StartMe", type: "partnership", status: "running", moves: ["EV1"], proposed: [], partners: ["emory"] },
-            { name: "Southside Assembly", type: "partnership", status: "running", moves: ["EV2"], proposed: [], partners: [] },
+            { name: "Southside Assembly", type: "confirm", status: "running", moves: ["EV2"], proposed: [], partners: [] },
             { name: "A CDFI", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
@@ -324,15 +324,15 @@ window.FCS_DATA = {
           name: "Workforce development",
           programs: [
             { name: "Employment connections", type: "partnership", status: "running", moves: ["EV3", "EV4", "EV5", "EV6"], proposed: [], partners: [] },
-            { name: "Carver Market jobs", type: "partnership", status: "running", moves: ["EV7"], proposed: ["EV3", "EV4", "EV5", "EV6"], partners: [] },
-            { name: "Micro-business spaces, Brownsville Point", type: "partnership", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
+            { name: "Carver Market jobs", type: "program", status: "running", moves: ["EV7"], proposed: ["EV3", "EV4", "EV5", "EV6"], partners: [] },
+            { name: "Micro-business spaces, Brownsville Point", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
         {
           name: "Financial literacy",
           programs: [
-            { name: "Financial coaching", type: "partnership", status: "running", moves: ["EV8"], proposed: [], partners: [] },
-            { name: "VITA tax credits", type: "partnership", status: "running", moves: ["EV8", "EV9"], proposed: [], partners: [] }
+            { name: "Financial coaching", type: "program", status: "running", moves: ["EV8"], proposed: [], partners: [] },
+            { name: "VITA tax credits", type: "program", status: "running", moves: ["EV8", "EV9"], proposed: [], partners: [] }
           ]
         }
       ]
