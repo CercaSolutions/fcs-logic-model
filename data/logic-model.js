@@ -1,14 +1,13 @@
-// FCS logic model content.
-// Source: FCS_Logic_Model.pptx (the nine-slide pathway deck, Deliverables folder, saved 2026-10-21),
-// word for word. Measure status ("now" or "later") comes from the Measures tab of
-// FCS Dashboard and Measures.xlsx (Count now = now, Waiting = later), since the deck
-// shows status only as chip color.
+// Backup copy of the FCS logic model content.
+// The page reads the live content from the FCS Google Sheet (see assets/sheet-loader.js).
+// It falls back to this copy only if the sheet can't be reached, so refresh this file
+// from the sheet now and then.
 //
-// To change the model, edit this file. Every page reads from it; nothing on the page is typed by hand.
+// Field notes:
 //   program.moves    = measures the program moves today
 //   program.proposed = measures it is proposed for
 //   program.status   = "running" or "proposed"
-//   program.partners = partner ids from the partners list below; leave [] until FCS names one
+//   program.partners = partner ids from the partners list below
 //   program.type     = "partnership" (FCS works with a partner who delivers),
 //                      "asset" (FCS owns it), "program" (FCS runs it), "confirm" (type or FCS' role not settled)
 //   measure.status   = "now" (FCS can count it today), "later" (waits on a data source), "held"
@@ -71,8 +70,7 @@ window.FCS_DATA = {
     held: { label: "Held", text: "On hold until the program or data is ready" }
   },
 
-  // Partners named for the programs below. Type groups are Cerca's working labels, not FCS'.
-  // "confirm: true" marks a partner the second draft lists as to confirm.
+  // "confirm: true" marks a partner still to be confirmed.
   partnerTypes: [
     "Schools and school operators",
     "Early learning and youth organizations",
@@ -420,7 +418,7 @@ window.FCS_DATA = {
           programs: [
             { name: "Legacy Home Preservation and Repair Program", type: "program", status: "running", moves: ["LR1", "LR2", "LR3"], proposed: [], partners: [] },
             { name: "Homestead exemption and property tax abatement", type: "partnership", status: "running", moves: ["LR4"], proposed: [], partners: ["fulton-tax"] },
-            { name: "Title clearing for heirs’ property", type: "partnership", status: "running", moves: ["LR1", "LR2", "LR3", "LR4", "LR5"], proposed: [], partners: [] },
+            { name: "Title clearing for heirs’ property", type: "partnership", status: "running", moves: ["LR1", "LR2", "LR3", "LR4", "LR5"], proposed: [], partners: ["legal-aid"] },
             { name: "Stepping Forward (basic needs for renters)", type: "confirm", status: "running", moves: ["LR6"], proposed: [], partners: [] }
           ]
         }

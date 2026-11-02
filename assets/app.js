@@ -1,5 +1,6 @@
 // FCS logic model: renders window.FCS_DATA (data/logic-model.js) in the digital logic model layout.
-(function () {
+// Started by assets/sheet-loader.js once the content is loaded.
+window.FCS_START = function () {
   "use strict";
   var D = window.FCS_DATA;
 
@@ -25,7 +26,8 @@
 
   // ---- State ----
   var S = { area: "EC", fcsOnly: false, program: null, partner: null, highlight: null };
-  try { var saved = localStorage.getItem("fcs-area"); if (saved) S.area = saved; } catch (e) {}
+  S.area = D.results[0].code;
+  try { var saved = localStorage.getItem("fcs-area"); if (saved && (saved === "all" || D.results.some(function (r) { return r.code === saved; }))) S.area = saved; } catch (e) {}
   var hashArea = (location.hash || "").replace("#", "").toUpperCase();
   if (hashArea === "ALL" || D.results.some(function (r) { return r.code === hashArea; })) S.area = hashArea === "ALL" ? "all" : hashArea;
 
@@ -56,7 +58,8 @@
     model: document.getElementById("model"),
     deps: document.getElementById("area-deps")
   };
-  var DEP_AREA = { "Economic Vitality": "EV", "Stable Homes": "SH", "Early Childhood": "EC", "Health and Wellness": "HW", "Elementary": "ED", "Legacy Residents": "LR" };
+  var DEP_AREA = {};
+  D.results.forEach(function (r) { DEP_AREA[areaShort(r)] = r.code; DEP_AREA[r.area] = r.code; });
   function depLine(r) {
     var row = D.dependencies.rows.filter(function (x) { return x.area === areaShort(r); })[0];
     if (!row) return "";
@@ -71,7 +74,7 @@
 
   function renderAreaBar() {
     var html = D.results.map(function (r) {
-      return '<button class="area-btn' + (LIGHT_TEXT[r.code] ? " light-c" : "") + '" style="--c:' + AREA_COLOR[r.code] + '" data-area="' + r.code + '" aria-pressed="' + (S.area === r.code) + '">' + esc(r.area) + "</button>";
+      return '<button class="area-btn' + (LIGHT_TEXT[r.code] ? " light-c" : "") + '" style="--c:' + (AREA_COLOR[r.code] || "var(--teal)") + '" data-area="' + r.code + '" aria-pressed="' + (S.area === r.code) + '">' + esc(r.area) + "</button>";
     }).join("");
     html += '<button class="area-btn all" data-area="all" aria-pressed="' + (S.area === "all") + '">All areas</button>';
     el.btns.innerHTML = html;
@@ -133,7 +136,7 @@
       if (S.area === "all" && x.r.code !== lastArea) { html += '<div class="group-name">' + esc(x.r.area) + "</div>"; lastArea = x.r.code; lastGroup = null; }
       if (S.area !== "all" && x.group && x.group !== lastGroup) { html += '<div class="group-name">' + esc(x.group) + "</div>"; lastGroup = x.group; }
       var lit = S.highlight && S.highlight(x);
-      html += '<div class="prog ' + x.p.status + (lit ? " lit" : "") + (S.program === x.key ? " sel" : "") + '" style="--ac:' + AREA_COLOR[x.r.code] + '" data-prog="' + x.key + '" role="button" tabindex="0">' +
+      html += '<div class="prog ' + x.p.status + (lit ? " lit" : "") + (S.program === x.key ? " sel" : "") + '" style="--ac:' + (AREA_COLOR[x.r.code] || "var(--teal)") + '" data-prog="' + x.key + '" role="button" tabindex="0">' +
         '<div class="pbody"><span class="pname">' + esc(x.p.name) + '</span><span class="pmeta">' + esc(D.types[x.p.type].label) + " · " + (x.p.status === "proposed" ? "Future or proposed" : "Running") + "</span></div>" +
         '<div class="pfoot"><button class="learn" data-learn="' + x.key + '">Learn more</button></div></div>';
     });
@@ -265,7 +268,7 @@
       return '<ul class="mlist">' + ids.map(function (id) { var m = measures[id].m; return '<li class="measure"><span class="chip ' + m.status + '">' + esc(id) + "</span><span>" + esc(m.text) + "</span></li>"; }).join("") + "</ul>";
     }
     shade = document.createElement("div"); shade.className = "modal-shade";
-    shade.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" style="--ac:' + AREA_COLOR[x.r.code] + '">' +
+    shade.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" style="--ac:' + (AREA_COLOR[x.r.code] || "var(--teal)") + '">' +
       '<div class="modal-head"><h2 id="m-title">' + esc(p.name) + '</h2><button class="close" id="m-close" aria-label="Close">×</button></div>' +
       '<div class="modal-body"><dl class="kv">' +
       "<dt>Area</dt><dd>" + esc(x.r.area) + (x.group ? ", " + esc(x.group) : "") + "</dd>" +
@@ -313,7 +316,7 @@
     var t = e.target;
     if (shade && (t === shade || t.closest("#m-close"))) { closeModal(); return; }
     var go = t.closest(".dep-go");
-    if (go) { closeModal(); setArea(go.dataset.area); window.scrollTo(0, 0); return; }
+    if (go) { if (go.dataset.area && go.dataset.area !== "undefined") { closeModal(); setArea(go.dataset.area); window.scrollTo(0, 0); } return; }
     if (t.closest("#connect")) { openConnect(); return; }
     var chipP = t.closest(".pchip[data-partner]");
     if (chipP) { closeModal(); S.partner = chipP.dataset.partner; S.program = null; render(); return; }
@@ -365,4 +368,4 @@
   });
 
   render();
-})();
+};

@@ -1,35 +1,30 @@
 # FCS Logic Model
 
-An interactive version of the Focused Community Strategies logic model, built from the nine-slide pathway deck (`FCS_Logic_Model.pptx`, second draft).
+An interactive version of the Focused Community Strategies logic model.
 
 It follows the layout of the Purpose Built digital logic models: an area filter bar and six columns read left to right, partners, programs, measures, what needs to be true, community indicators, and the desired result. Click a partner group to see who is in it, a partner to see the programs they support, or a program to narrow the page to its measures.
 
-It is a static web page: plain HTML, CSS and JavaScript, with no build step and no framework. It can be hosted free on GitHub Pages.
+It is a static web page: plain HTML, CSS and JavaScript, with no build step and no framework, hosted on GitHub Pages.
+
+## Changing the content
+
+The content lives in a Google Sheet, **FCS - Logic Model Data**. Edit the sheet and the page shows the change the next time it is opened, usually within a few minutes. The sheet's "How to edit" tab explains each tab and the rules that keep the page working.
+
+The sheet must stay shared as "Anyone with the link can view." If the page can't read it, it falls back to the backup copy in `data/logic-model.js`, which is only as current as its last refresh.
 
 ## What's here
 
 | Path | What it is |
 |---|---|
 | `index.html` | The page |
-| `data/logic-model.js` | All of the content: results, community indicators, measures, programs, partners, and the dependency table |
-| `assets/app.js` | Draws the page from the data file |
+| `assets/sheet-loader.js` | Reads the Google Sheet. The sheet's id and tab ids are at the top |
+| `assets/app.js` | Draws the page |
 | `assets/styles.css` | Look and layout, from the FCS Brand Guide |
+| `data/logic-model.js` | Backup copy of the content, and the page's fixed labels |
 | `assets/fcs-logo-white.png`, `assets/fcs-logo-color.png` | FCS logos |
 
-## Changing the content
+To preview locally, open `index.html` in a browser. Add `?source=local` to the address to use the backup copy instead of the sheet.
 
-Edit `data/logic-model.js`. Nothing on the page is typed in by hand, so a change there shows up everywhere.
+## Moving the sheet
 
-- A new measure takes the next number in its area (EC5 after EC4) and a `status` of `now`, `later` or `held`.
-- A program lists the measure IDs it `moves` today and the ones it is `proposed` for.
-- A program lists its `partners` by id from the partners list. Leave it empty until FCS names one, and it shows under "Partner not named yet."
-- Partner type groups are working labels and can be renamed in `partnerTypes`.
-- Measure status comes from the Measures tab of `FCS Dashboard and Measures.xlsx`. Keep the two in step.
-
-To preview locally, open `index.html` in a browser.
-
-## Publishing
-
-The repository is private, and the page is not published yet. A GitHub Pages site is public to anyone with the link, even from a private repository, so turn it on only once FCS has approved the content.
-
-When it's time: Settings, Pages, deploy from the `main` branch, root folder. The page carries a `noindex` tag so search engines don't list it.
+If the sheet is copied to another Drive, put the new sheet's id in `assets/sheet-loader.js`, and the new tab ids (the number after `gid=` in each tab's address).
