@@ -229,3 +229,13 @@ table.deps tbody th { width: 150px; }
 table.deps tr:last-child th, table.deps tr:last-child td { border-bottom: 0; }
 .modal-note { font-size: 12px; color: var(--muted); margin: 0; }
 @media print { #connect { display: none !important; } }
+
+/* Builder credit */
+.credit { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 4px 16px 22px; font-size: 12px; color: var(--muted); }
+.credit a { display: inline-flex; border-radius: 4px; }
+.credit .cerca { height: 28px; width: auto; display: block; opacity: 0.9; }
+.credit a:hover .cerca { opacity: 1; }
+.credit .cerca.on-dark { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .credit .cerca.on-light { display: none; } :root:not([data-theme="light"]) .credit .cerca.on-dark { display: block; } }
+:root[data-theme="dark"] .credit .cerca.on-light { display: none; }
+:root[data-theme="dark"] .credit .cerca.on-dark { display: block; }

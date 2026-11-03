@@ -106,6 +106,7 @@
         if (!grp) { grp = { name: g, programs: [] }; res.programGroups.push(grp); }
         grp.programs.push({
           name: p.program,
+          note: p.note || undefined,
           type: TYPE[(p.type || "").toLowerCase()] || "confirm",
           status: /^future|^proposed/i.test(p.status) ? "proposed" : "running",
           moves: list(p["moves measures"]).filter(function (id) { return known[id]; }),

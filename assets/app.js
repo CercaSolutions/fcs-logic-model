@@ -272,6 +272,7 @@ window.FCS_START = function () {
       "<dt>Area</dt><dd>" + esc(x.r.area) + (x.group ? ", " + esc(x.group) : "") + "</dd>" +
       "<dt>Type</dt><dd>" + esc(D.types[p.type].label) + ": " + esc(D.types[p.type].text) + "</dd>" +
       "<dt>Status</dt><dd>" + (p.status === "proposed" ? "Future or proposed" : "Running") + "</dd>" +
+      (p.note ? "<dt>Note</dt><dd>" + esc(p.note) + "</dd>" : "") +
       "<dt>Partners</dt><dd>" + pl + "</dd></dl>" +
       (p.moves.length ? '<div><div class="sub-label" style="padding-left:0">Moves measures</div>' + mlist(p.moves) + "</div>" : "") +
       (p.proposed.length ? '<div><div class="sub-label" style="padding-left:0">Proposed for</div>' + mlist(p.proposed) + "</div>" : "") +

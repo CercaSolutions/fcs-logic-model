@@ -168,7 +168,7 @@ window.FCS_DATA = {
         { id: "CI-01A", text: "Kindergartners ready on the GKIDS Readiness Check", status: "later" }
       ],
       needsTrue: "Most of our neighborhood 0-4 year-olds are enrolled in a high-quality early education experience.",
-      questionsLabel: "Key Questions:",
+      questionsLabel: "Key questions:",
       questions: [
         "How many spaces do we have?",
         "If filled by our kids, what % of our kids does that cover?",
@@ -177,8 +177,8 @@ window.FCS_DATA = {
       measures: [
         { id: "EC1", text: "Recruitment: xx% of early childhood slots are held by neighborhood kids", status: "now" },
         { id: "EC2", text: "Availability of slots: xx slots are provided by local childhood education to meet the needs of the neighborhood", status: "now" },
-        { id: "EC3", text: "Quality of Slots: XX% of kids matriculating from early childhood providers into kindergarten are ready.", status: "later" },
-        { id: "EC4", text: "Attendance in Slots: xx% of kids are achieving xx% attendance rate", status: "later" }
+        { id: "EC3", text: "Quality of slots: xx% of kids matriculating from early childhood providers into kindergarten are ready", status: "later" },
+        { id: "EC4", text: "Attendance in slots: xx% of kids are achieving xx% attendance rate", status: "later" }
       ],
       programGroups: [
         {
@@ -187,7 +187,7 @@ window.FCS_DATA = {
             { name: "Pre-K and Head Start seats at Slater", type: "partnership", status: "running", moves: ["EC1", "EC2", "EC3", "EC4"], proposed: [], partners: ["ymca", "pbsa"] },
             { name: "Learning Spaces (drop-in early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [], partners: ["united-way", "ymca"] },
             { name: "Early Learning Ambassador", type: "program", status: "proposed", moves: [], proposed: ["EC1", "EC4"], partners: ["geears"] },
-            { name: "Pathways to Promise (home-based early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [], partners: ["qcc"] }
+            { name: "Pathways to Promise (early learning centers at churches)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [], partners: ["qcc"] }
           ]
         }
       ]
@@ -215,7 +215,7 @@ window.FCS_DATA = {
       ],
       measures: [
         { id: "ED1", text: "xx% attendance rate achieved", status: "later" },
-        { id: "ED2", text: "xx% of slater 3rd graders are achieving 3rd grade reading levels.", status: "now" },
+        { id: "ED2", text: "xx% of Slater 3rd graders are achieving 3rd grade reading levels", status: "now" },
         { id: "ED3", text: "xx% of Slater students being from the neighborhood", status: "now" }
       ],
       programGroups: [
@@ -261,7 +261,7 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Carver Market and Community Grounds", type: "program", status: "running", moves: ["HW1"], proposed: [], partners: [] },
+            { name: "Carver Market and Community Grounds", note: "FCS owns the market and cafe and will hire an outside operator to run them. That transition is under way.", type: "asset", status: "running", moves: ["HW1"], proposed: [], partners: [] },
             { name: "Food co-op for seniors", type: "program", status: "running", moves: ["HW2"], proposed: [], partners: ["urban-recipe"] },
             { name: "Community Health Navigators", type: "program", status: "proposed", moves: [], proposed: ["HW3"], partners: [] },
             { name: "Bike clubs at Price Middle School", type: "program", status: "running", moves: ["HW4", "HW5", "HW6"], proposed: [], partners: [] },
@@ -279,7 +279,7 @@ window.FCS_DATA = {
       lead: { name: "Kim Jones", title: "Director of Economic Vitality" },
       relation: { kind: "Also contributes to", id: "P-05", text: "Families of our children have stable housing in the neighborhood" },
       logic:
-        "When FCS connects neighborhood residents to work that pays a living wage, creates opportunities for them to build wealth, and helps them hold on to what they earn, this changes for households in Historic South Atlanta and Thomasville Heights, and that moves the result because income and savings rise together, and that is what keeps a household at 200 percent above the poverty line when costs go up.",
+        "When FCS connects neighborhood residents to work that pays a living wage, creates opportunities for them to build wealth, and helps them hold on to what they earn, this changes for households in Historic South Atlanta and Thomasville Heights, and that moves the result because income and savings rise together, and that is what keeps a household above 200 percent of the poverty line when costs go up.",
       indicators: [
         { id: "CI-04A", text: "Employment rate", status: "now" },
         { id: "CI-04B", text: "Median earnings, full-time workers", status: "now" },
@@ -317,15 +317,15 @@ window.FCS_DATA = {
           programs: [
             { name: "StartMe", type: "partnership", status: "running", moves: ["EV1"], proposed: [], partners: ["emory"] },
             { name: "Southside Assembly", type: "confirm", status: "running", moves: ["EV2"], proposed: [], partners: [] },
-            { name: "A CDFI", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
+            { name: "FCS\u2019 CDFI: capital for businesses", note: "FCS\u2019 CDFI focuses on housing lending today and is expected to begin providing capital to businesses in 2027.", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
         {
           name: "Workforce development",
           programs: [
             { name: "Employment connections", type: "partnership", status: "running", moves: ["EV3", "EV4", "EV5", "EV6"], proposed: [], partners: [] },
-            { name: "Carver Market jobs", type: "program", status: "running", moves: ["EV7"], proposed: ["EV3", "EV4", "EV5", "EV6"], partners: [] },
-            { name: "Micro-business spaces, Brownsville Point", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
+            { name: "Carver Market jobs", note: "FCS owns the market and cafe and will hire an outside operator to run them. That transition is under way.", type: "asset", status: "running", moves: ["EV7"], proposed: ["EV3", "EV4", "EV5", "EV6"], partners: [] },
+            { name: "Micro-business spaces at Brownsville Point (under construction)", note: "Under construction.", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
         {
@@ -373,8 +373,8 @@ window.FCS_DATA = {
           name: null,
           programs: [
             { name: "Rental portfolio", type: "asset", status: "running", moves: ["SH1", "SH2", "SH3"], proposed: ["SH4", "SH5", "SH6", "SH7"], partners: [] },
-            { name: "Single-family homes and mortgage lending", type: "partnership", status: "running", moves: ["SH4", "SH5", "SH6", "SH7"], proposed: [], partners: ["fortis", "pinnacle"] },
-            { name: "Brownsville Point (18 mixed-income rental units)", type: "asset", status: "running", moves: ["SH8"], proposed: [], partners: [] }
+            { name: "Single-family homes and mortgage lending", note: "FCS\u2019 CDFI focuses on housing lending today.", type: "partnership", status: "running", moves: ["SH4", "SH5", "SH6", "SH7"], proposed: [], partners: ["fortis", "pinnacle"] },
+            { name: "Brownsville Point (18 mixed-income rental units, under construction)", note: "Under construction.", type: "asset", status: "proposed", moves: [], proposed: ["SH8"], partners: [] }
           ]
         }
       ]
