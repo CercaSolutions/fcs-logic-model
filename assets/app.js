@@ -93,7 +93,7 @@ window.FCS_START = function () {
   var HEADS = [
     { label: "Partners", tip: "Organizations that deliver or support FCS’ programs, grouped by type. Click a group to see who is in it, then a partner to see the programs they support." },
     { label: "Programs", tip: D.howToRead.steps[4].text + " A dashed box is future or proposed." },
-    { label: "Measures", tip: D.howToRead.steps[3].text + " A solid chip is a measure FCS can count now; a dashed chip waits on a data source." },
+    { label: "Measures", tip: D.howToRead.steps[3].text },
     { label: "What needs to be true", tip: D.howToRead.steps[2].text },
     { label: "Community indicators", tip: D.howToRead.steps[1].text },
     { label: "Desired result", tip: D.howToRead.steps[0].text }
@@ -165,8 +165,7 @@ window.FCS_START = function () {
     return ids.map(function (id) {
       var e = measures[id], m = e.m, head = "";
       if (S.area === "all" && e.r.code !== lastArea) { head = '<div class="group-name">' + esc(areaShort(e.r)) + "</div>"; lastArea = e.r.code; }
-      return head + '<div class="item measure"><span class="chip ' + m.status + '">' + esc(m.id) + "</span><span>" + esc(m.text) +
-        '<span class="mstatus">' + esc(D.measureStatus[m.status].label) + "</span></span></div>";
+      return head + '<div class="item measure"><span class="chip">' + esc(m.id) + "</span><span>" + esc(m.text) + "</span></div>";
     }).join("");
   }
 
@@ -189,7 +188,6 @@ window.FCS_START = function () {
         var tag = n === 0 && rs.length > 1 ? '<span class="area-tag">' + esc(areaShort(r)) + "</span>" : "";
         if (i.gap) return '<div class="item gap">' + tag + '<span class="iid">No indicator yet</span>' + esc(i.text) + (i.note ? '<span class="ind-note">' + esc(i.note) + "</span>" : "") + "</div>";
         return '<div class="item">' + tag + '<span class="iid">' + esc(i.id) + "</span>" + esc(i.text) +
-          ' <span class="chip ' + i.status + '" style="min-width:0;margin-left:4px">' + esc(D.measureStatus[i.status].label) + "</span>" +
           (i.note ? '<span class="ind-note">' + esc(i.note) + "</span>" : "") + "</div>";
       }).join("");
     }).join("") || '<div class="empty">Nothing to show.</div>';
@@ -265,7 +263,7 @@ window.FCS_START = function () {
       ? p.partners.map(function (id) { var q = partners[id]; return '<button class="pchip" data-partner="' + id + '">' + esc(q.name) + (q.confirm ? " (to confirm)" : "") + "</button>"; }).join("")
       : '<span style="color:var(--muted)">No partner named yet</span>';
     function mlist(ids) {
-      return '<ul class="mlist">' + ids.map(function (id) { var m = measures[id].m; return '<li class="measure"><span class="chip ' + m.status + '">' + esc(id) + "</span><span>" + esc(m.text) + "</span></li>"; }).join("") + "</ul>";
+      return '<ul class="mlist">' + ids.map(function (id) { var m = measures[id].m; return '<li class="measure"><span class="chip">' + esc(id) + "</span><span>" + esc(m.text) + "</span></li>"; }).join("") + "</ul>";
     }
     shade = document.createElement("div"); shade.className = "modal-shade";
     shade.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" style="--ac:' + (AREA_COLOR[x.r.code] || "var(--teal)") + '">' +
