@@ -151,7 +151,7 @@ window.FCS_DATA = {
       }
     ],
     note:
-      "The draft already lists a related assumption to test. Each line is FCS’ own reason, from “Other FCS areas this depends on.” Named dependencies, not overlaps shown in data."
+      "TO TEST marks a dependency the draft already lists as an assumption to test. Each line is FCS’ own reason, from “Other FCS areas this depends on.” Named dependencies, not overlaps shown in data."
   },
 
   results: [
