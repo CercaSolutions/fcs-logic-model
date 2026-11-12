@@ -97,7 +97,7 @@ window.FCS_DATA = {
 
   dependencies: {
     title: "What each area needs from the others",
-    subtitle: "As FCS named it in the second draft",
+    subtitle: "As FCS named it",
     columns: [
       { area: "Economic Vitality", named: "Named by 5 of 5" },
       { area: "Stable Homes", named: "Named by 4 of 5" },
@@ -156,12 +156,12 @@ window.FCS_DATA = {
 
   results: [
     {
-      id: "P-01",
+      id: "R-01",
       code: "EC",
       area: "Education: Early Childhood",
       result: "Children are ready for kindergarten",
       lead: { name: "Marvin Nesbitt", title: "President" },
-      relation: { kind: "Also contributes to", id: "P-04", text: "Neighborhood residents are economically secure" },
+      relation: { kind: "Also contributes to", id: "R-04", text: "Neighborhood residents are economically secure" },
       logic:
         "When FCS expands and fills high-quality early learning seats with neighborhood children and reaches families at home before pre-K, this changes for children in Historic South Atlanta and Thomasville Heights from birth to kindergarten entry, and that moves the result because more of them spend the years before kindergarten in quality early learning, so more start kindergarten ready.",
       indicators: [
@@ -175,34 +175,36 @@ window.FCS_DATA = {
         "Are the kids enrolled successfully entering kindergarten ready?"
       ],
       measures: [
-        { id: "EC1", text: "Recruitment: xx% of early childhood slots are held by neighborhood kids", status: "now" },
-        { id: "EC2", text: "Availability of slots: xx slots are provided by local childhood education to meet the needs of the neighborhood", status: "now" },
-        { id: "EC3", text: "Quality of slots: xx% of kids matriculating from early childhood providers into kindergarten are ready", status: "later" },
-        { id: "EC4", text: "Attendance in slots: xx% of kids are achieving xx% attendance rate", status: "later" }
+        { id: "EC1", text: "Number of neighborhood families FCS contacted or referred to the Slater seats", status: "later" },
+        { id: "EC2", text: "Number and percent of children from the Slater seats who score ready on GKIDS at kindergarten entry", status: "later" },
+        { id: "EC3", text: "Number of home-based centers taking part, and the number of neighborhood children in their care", status: "later" },
+        { id: "EC4", text: "Recruitment: xx% of early childhood slots are held by neighborhood kids", status: "later" },
+        { id: "EC5", text: "Availability of slots: xx slots are provided by local childhood education to meet the needs of the neighborhood", status: "now" },
+        { id: "EC6", text: "Attendance in slots: xx% of kids are achieving xx% attendance rate", status: "later" }
       ],
       programGroups: [
         {
           name: null,
           programs: [
-            { name: "Pre-K and Head Start seats at Slater", type: "partnership", status: "running", moves: ["EC1", "EC2", "EC3", "EC4"], proposed: [], partners: ["ymca", "pbsa"] },
-            { name: "Learning Spaces (drop-in early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [], partners: ["united-way", "ymca"] },
-            { name: "Early Learning Ambassador", type: "program", status: "proposed", moves: [], proposed: ["EC1", "EC4"], partners: ["geears"] },
-            { name: "Pathways to Promise (early learning centers at churches)", type: "partnership", status: "running", moves: ["EC2", "EC3"], proposed: [], partners: ["qcc"] }
+            { name: "Pre-K and Head Start seats at Slater", type: "partnership", status: "running", moves: ["EC1", "EC2", "EC3", "EC4", "EC5", "EC6"], proposed: [], partners: ["ymca", "pbsa"] },
+            { name: "Learning Spaces (drop-in early learning)", type: "partnership", status: "running", moves: ["EC2", "EC3", "EC5"], proposed: [], partners: ["united-way", "ymca"] },
+            { name: "Early Learning Ambassador", type: "program", status: "proposed", moves: [], proposed: ["EC1", "EC4", "EC6"], partners: ["geears"] },
+            { name: "Pathways to Promise (early learning centers at churches)", type: "partnership", status: "running", moves: ["EC2", "EC3", "EC5"], proposed: [], partners: ["qcc"] }
           ]
         }
       ]
     },
     {
-      id: "P-02",
+      id: "R-02",
       code: "ED",
       area: "Education: Elementary",
       result: "Children graduate ready for a career or college",
       lead: { name: "Marvin Nesbitt", title: "President" },
-      relation: { kind: "Builds on", id: "P-01", text: "Children are ready for kindergarten" },
+      relation: { kind: "Builds on", id: "R-01", text: "Children are ready for kindergarten" },
       logic:
         "When FCS brings the right partners together around a shared process for continuous improvement and shared accountability to keep neighborhood children reading proficient and in school every day, this changes for students in kindergarten through fifth grade from both neighborhoods, and that moves the result because more of them read on grade level by the end of third grade, which is the hinge for graduating ready.",
       indicators: [
-        { id: "CI-02A", text: "Third graders proficient in English language arts", status: "now" },
+        { id: "CI-02A", text: "Third graders proficient in English language arts (Slater, both neighborhoods)", status: "now" },
         { id: "CI-02B", text: "Slater enrollment by where students live (number to watch)", status: "now", watch: true }
       ],
       needsTrue: "Our students at Slater are achieving regular attendance, receiving high quality education, and low transiency rates.",
@@ -229,12 +231,12 @@ window.FCS_DATA = {
       ]
     },
     {
-      id: "P-03",
+      id: "R-03",
       code: "HW",
       area: "Health and Wellness",
       result: "Families and their children are healthy",
       lead: { name: "Marvin Nesbitt", title: "President" },
-      relation: { kind: "Also contributes to", id: "P-01", text: "Children are ready for kindergarten" },
+      relation: { kind: "Also contributes to", id: "R-01", text: "Children are ready for kindergarten" },
       logic:
         "When FCS keeps fresh food close to home, connects families to coverage and a regular doctor, and gives young people safe places to be active, this changes for neighborhood children from birth through eighteen and their families, and that moves the result because fewer of their health needs go unmet, which is what a parent would recognize as a healthy family.",
       indicators: [
@@ -254,8 +256,8 @@ window.FCS_DATA = {
         { id: "HW3", text: "xx% of children served have a well-child visit within twelve months", status: "later" },
         { id: "HW4", text: "xx young people enrolled", status: "now" },
         { id: "HW5", text: "xx% of young people return month to month", status: "now" },
-        { id: "HW6", text: "xx% report an adult they can go to, and are active xx days each week", status: "later" },
-        { id: "HW7", text: "xx% of children report an adult they can go to, and are active xx days each week", status: "later" }
+        { id: "HW6", text: "Bike clubs: xx% of children report an adult they can go to; xx active xx days each week", status: "later" },
+        { id: "HW7", text: "Summer camp: xx% of children report an adult they can go to; xx active xx days each week", status: "later" }
       ],
       programGroups: [
         {
@@ -265,31 +267,30 @@ window.FCS_DATA = {
             { name: "Food co-op for seniors", type: "program", status: "running", moves: ["HW2"], proposed: [], partners: ["urban-recipe"] },
             { name: "Community Health Navigators", type: "program", status: "proposed", moves: [], proposed: ["HW3"], partners: [] },
             { name: "Bike clubs at Price Middle School", type: "program", status: "running", moves: ["HW4", "HW5", "HW6"], proposed: [], partners: [] },
-            { name: "Summer camp", type: "confirm", status: "running", moves: ["HW7"], proposed: [], partners: [] },
-            { name: "Enrichment fund and resources", type: "confirm", status: "running", moves: ["HW7"], proposed: [], partners: [] }
+            { name: "Summer camp", type: "program", status: "running", moves: ["HW7"], proposed: [], partners: [] },
+            { name: "Enrichment fund and resources", type: "program", status: "running", moves: ["HW7"], proposed: [], partners: [] }
           ]
         }
       ]
     },
     {
-      id: "P-04",
+      id: "R-04",
       code: "EV",
       area: "Economic Vitality",
       result: "Neighborhood residents are economically secure",
       lead: { name: "Kim Jones", title: "Director of Economic Vitality" },
-      relation: { kind: "Also contributes to", id: "P-05", text: "Families of our children have stable housing in the neighborhood" },
+      relation: { kind: "Also contributes to", id: "R-05", text: "Families of our children have stable housing in the neighborhood" },
       logic:
         "When FCS connects neighborhood residents to work that pays a living wage, creates opportunities for them to build wealth, and helps them hold on to what they earn, this changes for households in Historic South Atlanta and Thomasville Heights, and that moves the result because income and savings rise together, and that is what keeps a household above 200 percent of the poverty line when costs go up.",
       indicators: [
         { id: "CI-04A", text: "Employment rate", status: "now" },
-        { id: "CI-04B", text: "Median earnings, full-time workers", status: "now" },
+        { id: "CI-04B", text: "Median family income", status: "now" },
         { id: "CI-04C", text: "Residents below 200% of poverty", status: "now" },
-        { id: "CI-04D", text: "Cost-burdened households", status: "now" },
         {
           id: null,
           text: "Assets: savings, credit, money returned at tax time",
           gap: true,
-          note: "Financial coaching and VITA measure assets, not income, so they reach none of the four community indicators."
+          note: "Financial coaching and VITA measure assets, not income, so they reach none of the three community indicators."
         }
       ],
       needsTrue: "Our neighborhood residents have jobs that pay a living wage, ways to build wealth, and help keeping what they earn, so their households stay above 200 percent of poverty as costs rise.",
@@ -309,7 +310,8 @@ window.FCS_DATA = {
         { id: "EV6", text: "xx% of placed households above 200% poverty", status: "later" },
         { id: "EV7", text: "xx% of neighborhood staff paid at or above a living wage", status: "now" },
         { id: "EV8", text: "xx% of clients can cover a $400 expense without borrowing, at entry and six months later", status: "later" },
-        { id: "EV9", text: "xx% of households receive the credits they qualify for, and xx dollars returned", status: "later" }
+        { id: "EV9", text: "xx% of households receive the credits they qualify for, and xx dollars returned", status: "later" },
+        { id: "EV10", text: "Percent of employment partners with a signed MOU naming measurable outcomes", status: "now" }
       ],
       programGroups: [
         {
@@ -338,17 +340,17 @@ window.FCS_DATA = {
       ]
     },
     {
-      id: "P-05",
+      id: "R-05",
       code: "SH",
       area: "Housing: Stable Homes",
       result: "Families of our children have stable housing in the neighborhood",
       lead: { name: "Marvin Nesbitt", title: "President" },
-      relation: { kind: "Also contributes to", id: "P-02", text: "Children graduate ready for a career or college" },
+      relation: { kind: "Also contributes to", id: "R-02", text: "Children graduate ready for a career or college" },
       logic:
         "When FCS keeps rents within reach, helps renters buy, and keeps borrowers current, this changes for families raising children in both neighborhoods, and that moves the result because housing costs stay manageable as values rise, so the families already here are still here a year later.",
       indicators: [
         { id: "CI-05A", text: "Cost-burdened households", status: "now" },
-        { id: "CI-05B", text: "Students who start and finish the year at the same school", status: "now" },
+        { id: "CI-05B", text: "School mobility rate at Slater, both neighborhoods (lower is better)", status: "now" },
         { id: "CI-05C", text: "Vacancy at FCS and partner developments", status: "now" }
       ],
       needsTrue: "Families raising children in our neighborhood can afford to rent or buy a home here, and are still here a year later.",
@@ -359,7 +361,7 @@ window.FCS_DATA = {
         "Are renters and buyers still in the neighborhood a year or two later?"
       ],
       measures: [
-        { id: "SH1", text: "xx rental units held, and xx home to households with children", status: "now" },
+        { id: "SH1", text: "xx rental units held, and xx rental units that hold households with children", status: "now" },
         { id: "SH2", text: "xx% of renter households pay more than 30% of income on rent, and xx% more than 50%", status: "now" },
         { id: "SH3", text: "xx% of students at Slater from the neighborhood who have the same address registered year after year", status: "now" },
         { id: "SH4", text: "xx homes sold, by neighborhood", status: "now" },
@@ -380,12 +382,12 @@ window.FCS_DATA = {
       ]
     },
     {
-      id: "P-06",
+      id: "R-06",
       code: "LR",
       area: "Housing: Legacy Residents",
       result: "Legacy residents remain in the neighborhood",
       lead: { name: "Marvin Nesbitt", title: "President" },
-      relation: { kind: "Also contributes to", id: "P-05", text: "Families of our children have stable housing in the neighborhood" },
+      relation: { kind: "Also contributes to", id: "R-05", text: "Families of our children have stable housing in the neighborhood" },
       logic:
         "When FCS repairs legacy owners’ homes and helps them keep the title and the tax bill manageable, this changes for the legacy households in our neighborhoods, and that moves the result because the most common reasons legacy residents are displaced are removed, so more of them are able to stay.",
       indicators: [
@@ -393,7 +395,7 @@ window.FCS_DATA = {
           id: "CI-06A",
           text: "Residents who have lived in the neighborhood eight years or more",
           status: "now",
-          note: "Note: the dashboard counts households at their current address eight years or more. The legacy definition (65 or older, or ten years or more) does not line up yet. FCS decides which to use."
+          note: "Note: CI-06A counts households at their current address eight years or more. The legacy definition used for LR2 is 65 or older, or ten years or more in the neighborhood."
         }
       ],
       needsTrue: "Our legacy residents keep homes that are safe to live in, a clear title, and a tax bill they can manage, so they are able to stay.",
@@ -418,8 +420,8 @@ window.FCS_DATA = {
           programs: [
             { name: "Legacy Home Preservation and Repair Program", type: "program", status: "running", moves: ["LR1", "LR2", "LR3"], proposed: [], partners: [] },
             { name: "Homestead exemption and property tax abatement", type: "partnership", status: "running", moves: ["LR4"], proposed: [], partners: ["fulton-tax"] },
-            { name: "Title clearing for heirs’ property", type: "partnership", status: "running", moves: ["LR1", "LR2", "LR3", "LR4", "LR5"], proposed: [], partners: ["legal-aid"] },
-            { name: "Stepping Forward (basic needs for renters)", type: "confirm", status: "running", moves: ["LR6"], proposed: [], partners: [] }
+            { name: "Title clearing for heirs’ property", type: "partnership", status: "running", moves: ["LR5"], proposed: [], partners: ["legal-aid"] },
+            { name: "Stepping Forward (basic needs for renters)", type: "program", status: "running", moves: ["LR6"], proposed: [], partners: [] }
           ]
         }
       ]
