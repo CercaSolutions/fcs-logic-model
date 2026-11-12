@@ -257,7 +257,7 @@ window.FCS_DATA = {
         { id: "HW4", text: "xx young people enrolled", status: "now" },
         { id: "HW5", text: "xx% of young people return month to month", status: "now" },
         { id: "HW6", text: "Bike clubs: xx% of children report an adult they can go to; xx active xx days each week", status: "later" },
-        { id: "HW7", text: "Summer camp: xx% of children report an adult they can go to; xx active xx days each week", status: "later" }
+        { id: "HW7", text: "xx children sponsored to attend summer camp", status: "now" }
       ],
       programGroups: [
         {
