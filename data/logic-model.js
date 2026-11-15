@@ -92,7 +92,11 @@ window.FCS_DATA = {
     { id: "fortis", name: "Fortis Homes", type: "Builders and lenders" },
     { id: "pinnacle", name: "Pinnacle", type: "Builders and lenders" },
     { id: "fulton-tax", name: "Fulton County Tax Commissioner", type: "Government", confirm: true },
-    { id: "legal-aid", name: "Atlanta Legal Aid", type: "Legal services", confirm: true }
+    { id: "legal-aid", name: "Atlanta Legal Aid", type: "Legal services", confirm: true },
+    { id: "price", name: "Price Middle School", type: "Schools and school operators" },
+    { id: "southside-assembly", name: "Southside Assembly", type: "Neighborhood and business organizations" },
+    { id: "acss", name: "Atlanta Center for Self Sufficiency", type: "Workforce and financial services" },
+    { id: "svdp", name: "St. Vincent de Paul", type: "Workforce and financial services" }
   ],
 
   dependencies: {
@@ -266,7 +270,7 @@ window.FCS_DATA = {
             { name: "Carver Market and Community Grounds", note: "FCS owns the market and cafe and will hire an outside operator to run them. That transition is under way.", type: "asset", status: "running", moves: ["HW1"], proposed: [], partners: [] },
             { name: "Food co-op for seniors", type: "program", status: "running", moves: ["HW2"], proposed: [], partners: ["urban-recipe"] },
             { name: "Community Health Navigators", type: "program", status: "proposed", moves: [], proposed: ["HW3"], partners: [] },
-            { name: "Bike clubs at Price Middle School", type: "program", status: "running", moves: ["HW4", "HW5", "HW6"], proposed: [], partners: [] },
+            { name: "Bike clubs at Price Middle School", note: "Purpose Built Schools Atlanta and Price Middle School run the bike clubs, which FCS used to run. FCS is a partner.", type: "partnership", status: "running", moves: ["HW4", "HW5", "HW6"], proposed: [], partners: ["pbsa", "price"] },
             { name: "Summer camp", type: "program", status: "running", moves: ["HW7"], proposed: [], partners: [] },
             { name: "Enrichment fund and resources", type: "program", status: "running", moves: ["HW7"], proposed: [], partners: [] }
           ]
@@ -318,23 +322,23 @@ window.FCS_DATA = {
           name: "Entrepreneurship and small business growth",
           programs: [
             { name: "StartMe", type: "partnership", status: "running", moves: ["EV1"], proposed: [], partners: ["emory"] },
-            { name: "Southside Assembly", type: "confirm", status: "running", moves: ["EV2"], proposed: [], partners: [] },
+            { name: "Southside Assembly", note: "Southside Assembly runs the Southside Assembly Business Association, which FCS started with grant funding. FCS provides technical assistance, and Carver Market and Community Grounds are members.", type: "partnership", status: "running", moves: ["EV2"], proposed: [], partners: ["southside-assembly"] },
             { name: "FCS\u2019 CDFI: capital for businesses", note: "FCS\u2019 CDFI focuses on housing lending today and is expected to begin providing capital to businesses in 2027.", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
         {
           name: "Workforce development",
           programs: [
-            { name: "Employment connections", type: "partnership", status: "running", moves: ["EV3", "EV4", "EV5", "EV6"], proposed: [], partners: [] },
+            { name: "Employment connections", type: "partnership", status: "running", moves: ["EV3", "EV4", "EV5", "EV6"], proposed: [], partners: ["acss"] },
             { name: "Carver Market jobs", note: "FCS owns the market and cafe and will hire an outside operator to run them. That transition is under way.", type: "asset", status: "running", moves: ["EV7"], proposed: ["EV3", "EV4", "EV5", "EV6"], partners: [] },
-            { name: "Micro-business spaces at Brownsville Point (under construction)", note: "Under construction.", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
+            { name: "Micro-business spaces at Brownsville Pointe (under construction)", note: "Under construction.", type: "asset", status: "proposed", moves: [], proposed: ["EV1", "EV2"], partners: [] }
           ]
         },
         {
           name: "Financial literacy",
           programs: [
             { name: "Financial coaching", type: "program", status: "running", moves: ["EV8"], proposed: [], partners: [] },
-            { name: "VITA tax credits", type: "program", status: "running", moves: ["EV8", "EV9"], proposed: [], partners: [] }
+            { name: "VITA tax credits", note: "St. Vincent de Paul prepares the returns at the VITA site.", type: "partnership", status: "running", moves: ["EV8", "EV9"], proposed: [], partners: ["svdp"] }
           ]
         }
       ]
@@ -374,9 +378,9 @@ window.FCS_DATA = {
         {
           name: null,
           programs: [
-            { name: "Rental portfolio", type: "asset", status: "running", moves: ["SH1", "SH2", "SH3"], proposed: ["SH4", "SH5", "SH6", "SH7"], partners: [] },
+            { name: "Rental portfolio", note: "FCS manages its 32 single-family rental homes. It does not manage the 84 units at Haven South Atlanta, and it will not manage the 18 units at Brownsville Pointe.", type: "asset", status: "running", moves: ["SH1", "SH2", "SH3"], proposed: ["SH4", "SH5", "SH6", "SH7"], partners: [] },
             { name: "Single-family homes and mortgage lending", note: "FCS\u2019 CDFI focuses on housing lending today.", type: "partnership", status: "running", moves: ["SH4", "SH5", "SH6", "SH7"], proposed: [], partners: ["fortis", "pinnacle"] },
-            { name: "Brownsville Point (18 mixed-income rental units, under construction)", note: "Under construction.", type: "asset", status: "proposed", moves: [], proposed: ["SH8"], partners: [] }
+            { name: "Brownsville Pointe (18 mixed-income rental units, under construction)", note: "Under construction.", type: "asset", status: "proposed", moves: [], proposed: ["SH8"], partners: [] }
           ]
         }
       ]
