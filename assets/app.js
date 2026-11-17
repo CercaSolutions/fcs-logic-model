@@ -42,7 +42,8 @@ window.FCS_START = function () {
   function shownProgs() {
     return baseProgs().filter(function (x) {
       if (S.program) return x.key === S.program;
-      if (S.partner === "__none") return !x.p.partners.length;
+      if (S.partner === "__new") return !x.p.partners.length && x.p.status === "proposed";
+      if (S.partner === "__none") return !x.p.partners.length && x.p.status !== "proposed";
       if (S.partner) return x.p.partners.indexOf(S.partner) > -1;
       return true;
     });
@@ -117,9 +118,13 @@ window.FCS_START = function () {
         (selHere ? '<span class="sel-name">' + esc(partners[S.partner].name) + "</span>" : "") +
         '</span><span class="count">' + members.length + "</span></button>";
     });
-    var none = scope.filter(function (x) { return !x.p.partners.length; }).length;
-    if (none && !S.program) {
-      html += '<button class="pgroup none' + (S.partner === "__none" ? " open" : "") + '" data-none="1"><span>Partner not named yet</span><span class="count" title="Programs with no partner named">' + none + "</span></button>";
+    var unstarted = scope.filter(function (x) { return !x.p.partners.length && x.p.status === "proposed"; }).length;
+    var unnamed = scope.filter(function (x) { return !x.p.partners.length && x.p.status !== "proposed"; }).length;
+    if (unstarted && !S.program) {
+      html += '<button class="pgroup none' + (S.partner === "__new" ? " open" : "") + '" data-none="__new"><span>Programs yet to be started</span><span class="count" title="Future or proposed programs with no partner yet">' + unstarted + "</span></button>";
+    }
+    if (unnamed && !S.program) {
+      html += '<button class="pgroup none' + (S.partner === "__none" ? " open" : "") + '" data-none="__none"><span>Partner not named yet</span><span class="count" title="Running programs with no partner named">' + unnamed + "</span></button>";
     }
     if (!html) html = '<div class="empty">' + (S.program ? "No partner named yet for this program." : "No partners named yet for these programs.") + "</div>";
     return html;
@@ -332,7 +337,7 @@ window.FCS_START = function () {
     var g = t.closest(".pgroup[data-group]");
     if (g) { pop && g.classList.contains("open") && !S.partner ? closePop() : openGroup(g, g.dataset.group); return; }
     var none = t.closest(".pgroup[data-none]");
-    if (none) { S.partner = S.partner === "__none" ? null : "__none"; S.program = null; render(); return; }
+    if (none) { var key = none.dataset.none; S.partner = S.partner === key ? null : key; S.program = null; render(); return; }
 
     var back = t.closest("[data-back]");
     if (back) { if (back.dataset.back === "partner") S.partner = null; else S.program = null; render(); return; }
