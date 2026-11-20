@@ -8,7 +8,8 @@ window.FCS_START = function () {
     return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
   var AREA_COLOR = { EC: "var(--a-ec)", ED: "var(--a-ed)", HW: "var(--a-hw)", EV: "var(--a-ev)", SH: "var(--a-sh)", LR: "var(--a-lr)" };
-  var LIGHT_TEXT = { HW: true, EV: true, SH: true };
+  // Pressed area buttons use navy text on every pillar color, per the guide's web-accessible pairs.
+  var LIGHT_TEXT = {};
 
   // ---- Index the data ----
   var partners = {}, measures = {}, programs = [];
@@ -81,11 +82,13 @@ window.FCS_START = function () {
     el.btns.innerHTML = html;
     if (S.area === "all") {
       el.title.textContent = "All areas";
+      el.title.style.setProperty("--area-c", "var(--navy)");
       el.lead.innerHTML = "";
       el.deps.innerHTML = ""; el.deps.hidden = true;
     } else {
       var r = D.results.filter(function (x) { return x.code === S.area; })[0];
       el.title.textContent = r.area;
+      el.title.style.setProperty("--area-c", AREA_COLOR[r.code] || "var(--teal)");
       el.lead.innerHTML = "Leads this model: <strong>" + esc(r.lead.name) + "</strong>, " + esc(r.lead.title);
       el.deps.innerHTML = depLine(r); el.deps.hidden = !el.deps.innerHTML;
     }

@@ -19,9 +19,9 @@ The sheet must stay shared as "Anyone with the link can view." If the page can't
 | `index.html` | The page |
 | `assets/sheet-loader.js` | Reads the Google Sheet. The sheet's id and tab ids are at the top |
 | `assets/app.js` | Draws the page |
-| `assets/styles.css` | Look and layout, from the FCS Brand Guide |
+| `assets/styles.css` | Look and layout. Each area takes its pillar color from the brand guide |
 | `data/logic-model.js` | Backup copy of the content, and the page's fixed labels |
-| `assets/fcs-logo-white.png`, `assets/fcs-logo-color.png` | FCS logos |
+| `assets/brand/` | FCS brand kit from the 2022 brand guide (updated October 2025): logos, color and type tokens in `fcs-brand.css`, and the web fonts Josefin Sans, Nunito Sans and Lora under the SIL Open Font License |
 
 To preview locally, open `index.html` in a browser. Add `?source=local` to the address to use the backup copy instead of the sheet.
 

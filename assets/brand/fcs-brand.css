@@ -1,0 +1,45 @@
+/* FCS brand tokens, from the FCS Brand Identity Guidelines (2022 guide, updated October 2025).
+   Color usage per the guide: navy carries about 55% of a piece, charcoal and light gray about 25%,
+   and the four accents (teal, kelly green, orange, lime) about 5% each.
+   Accent red is used only together with orange, so it is defined but not used on these pages.
+   Fonts are the guide's web-accessible set, self-hosted under the SIL Open Font License (fonts/OFL.txt). */
+
+@font-face { font-family: "Josefin Sans"; font-weight: 600; font-style: normal; font-display: swap; src: url("fonts/josefin-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Josefin Sans"; font-weight: 700; font-style: normal; font-display: swap; src: url("fonts/josefin-sans-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Nunito Sans"; font-weight: 400; font-style: normal; font-display: swap; src: url("fonts/nunito-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Nunito Sans"; font-weight: 400; font-style: italic; font-display: swap; src: url("fonts/nunito-sans-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Nunito Sans"; font-weight: 600; font-style: normal; font-display: swap; src: url("fonts/nunito-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Nunito Sans"; font-weight: 700; font-style: normal; font-display: swap; src: url("fonts/nunito-sans-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-weight: 700; font-style: normal; font-display: swap; src: url("fonts/lora-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-weight: 700; font-style: italic; font-display: swap; src: url("fonts/lora-latin-700-italic.woff2") format("woff2"); }
+
+:root {
+  /* Brand palette */
+  --fcs-navy: #0D2746;        /* PMS 655 C, primary */
+  --fcs-teal: #0199AB;        /* PMS 7711 C, Mixed-Income Housing */
+  --fcs-green: #15A74B;       /* PMS 7739 C, Economic Vitality */
+  --fcs-orange: #F05A22;      /* PMS 166 C, Neighborhood Health & Wellness */
+  --fcs-lime: #B1D135;        /* PMS 382 C, Cradle-to-Career Education */
+  --fcs-charcoal: #63666A;    /* PMS Cool Gray 10 C */
+  --fcs-light-gray: #D6D9DB;  /* PMS 427 C */
+  --fcs-red: #E52F28;         /* accent red, only alongside orange */
+
+  /* Light tints for panels and status backgrounds (navy text on all of them) */
+  --fcs-ground: #F3F4F5;
+  --fcs-navy-tint: #E7EAEE;
+  --fcs-teal-tint: #E3F4F6;
+  --fcs-green-tint: #E6F5EC;
+  --fcs-orange-tint: #FDE9E1;
+  --fcs-lime-tint: #F3F8E0;
+
+  /* Pillar colors, as the guide's four alternative logos assign them */
+  --pillar-housing: var(--fcs-teal);
+  --pillar-economic: var(--fcs-green);
+  --pillar-health: var(--fcs-orange);
+  --pillar-education: var(--fcs-lime);
+
+  /* Type: Josefin Sans for headlines, Nunito Sans for body, Lora for accents and callouts */
+  --font-head: "Josefin Sans", "Century Gothic", Arial, sans-serif;
+  --font-body: "Nunito Sans", Arial, Helvetica, sans-serif;
+  --font-accent: "Lora", Georgia, serif;
+}
