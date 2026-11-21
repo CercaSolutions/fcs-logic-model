@@ -328,7 +328,7 @@ window.FCS_DATA = {
         {
           "id": "CI-01A",
           "text": "Kindergartners ready on the GKIDS Readiness Check (Slater and Dobbs)",
-          "status": "now"
+          "status": "later"
         }
       ],
       "measures": [
@@ -355,7 +355,7 @@ window.FCS_DATA = {
         {
           "id": "EC5",
           "text": "Availability of slots: xx slots are provided by local childhood education to meet the needs of the neighborhood",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "EC6",
@@ -464,7 +464,7 @@ window.FCS_DATA = {
         {
           "id": "CI-02B",
           "text": "Enrollment at Slater and Dobbs by where students live (number to watch)",
-          "status": "now",
+          "status": "later",
           "watch": true
         }
       ],
@@ -477,7 +477,7 @@ window.FCS_DATA = {
         {
           "id": "ED2",
           "text": "xx% of the school's 3rd graders are achieving 3rd grade reading levels (Slater, Dobbs)",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "ED3",
@@ -573,12 +573,12 @@ window.FCS_DATA = {
         {
           "id": "HW4",
           "text": "xx young people enrolled",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "HW5",
           "text": "xx% of young people return month to month",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "HW6",
@@ -588,7 +588,7 @@ window.FCS_DATA = {
         {
           "id": "HW7",
           "text": "xx children sponsored to attend summer camp",
-          "status": "later"
+          "status": "now"
         }
       ],
       "programGroups": [
@@ -943,12 +943,12 @@ window.FCS_DATA = {
         {
           "id": "SH1",
           "text": "xx rental units held, and xx rental units that hold households with children",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "SH2",
           "text": "xx% of renter households pay more than 30% of income on rent, and xx% more than 50%",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "SH3",
@@ -958,22 +958,22 @@ window.FCS_DATA = {
         {
           "id": "SH4",
           "text": "xx homes sold, by neighborhood",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "SH5",
           "text": "xx% sold to neighborhood renters and to households with children",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "SH6",
           "text": "xx% of FCS mortgage loans current on payments",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "SH7",
           "text": "xx% of borrowers still in the home 24 months after closing",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "SH8",
@@ -1074,12 +1074,12 @@ window.FCS_DATA = {
         {
           "id": "LR1",
           "text": "xx homes repaired, in an average of xx days from application",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "LR2",
           "text": "xx% of repaired households meet the legacy definition",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "LR3",
