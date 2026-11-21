@@ -327,19 +327,19 @@ window.FCS_DATA = {
       "indicators": [
         {
           "id": "CI-01A",
-          "text": "Kindergartners ready on the GKIDS Readiness Check",
+          "text": "Kindergartners ready on the GKIDS Readiness Check (Slater and Dobbs)",
           "status": "now"
         }
       ],
       "measures": [
         {
           "id": "EC1",
-          "text": "Number of neighborhood families FCS contacted or referred to the Slater seats",
+          "text": "Number of neighborhood families FCS contacted or referred to the pre-K seats at Slater or Dobbs",
           "status": "later"
         },
         {
           "id": "EC2",
-          "text": "Number and percent of children from the Slater seats who score ready on GKIDS at kindergarten entry",
+          "text": "Number and percent of children from the school's pre-K seats who score ready on GKIDS at kindergarten entry (Slater, Dobbs)",
           "status": "later"
         },
         {
@@ -458,12 +458,12 @@ window.FCS_DATA = {
       "indicators": [
         {
           "id": "CI-02A",
-          "text": "Third graders proficient in English language arts (Slater, both neighborhoods)",
+          "text": "Third graders proficient in English language arts (Slater and Dobbs)",
           "status": "now"
         },
         {
           "id": "CI-02B",
-          "text": "Slater enrollment by where students live (number to watch)",
+          "text": "Enrollment at Slater and Dobbs by where students live (number to watch)",
           "status": "now",
           "watch": true
         }
@@ -476,12 +476,12 @@ window.FCS_DATA = {
         },
         {
           "id": "ED2",
-          "text": "xx% of Slater 3rd graders are achieving 3rd grade reading levels",
+          "text": "xx% of the school's 3rd graders are achieving 3rd grade reading levels (Slater, Dobbs)",
           "status": "later"
         },
         {
           "id": "ED3",
-          "text": "xx% of Slater students being from the neighborhood",
+          "text": "xx% of the school's students being from the neighborhood (Slater, Dobbs)",
           "status": "later"
         }
       ],
@@ -545,8 +545,8 @@ window.FCS_DATA = {
       "indicators": [
         {
           "id": "CI-03A",
-          "text": "Children under 19 with health insurance coverage",
-          "status": "now"
+          "text": "Access to health resources",
+          "status": "later"
         },
         {
           "id": null,
@@ -723,18 +723,18 @@ window.FCS_DATA = {
       "measures": [
         {
           "id": "EV1",
-          "text": "xx% of StartMe businesses still operating 12 months after the program",
-          "status": "later"
+          "text": "xx% of StartMe businesses launched or still operating 12 months after the program",
+          "status": "now"
         },
         {
           "id": "EV2",
           "text": "xx% of member businesses still operating 12 months later",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "EV3",
           "text": "xx adults referred, xx% placed yearly",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "EV4",
@@ -754,22 +754,22 @@ window.FCS_DATA = {
         {
           "id": "EV7",
           "text": "xx% of neighborhood staff paid at or above a living wage",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "EV8",
-          "text": "xx% of clients can cover a $400 expense without borrowing, at entry and six months later",
-          "status": "later"
+          "text": "xx% of clients can cover a $400 expense without borrowing, six months after coaching ends",
+          "status": "now"
         },
         {
           "id": "EV9",
           "text": "xx% of households receive the credits they qualify for, and xx dollars returned",
-          "status": "later"
+          "status": "now"
         },
         {
           "id": "EV10",
-          "text": "Percent of employment partners with a signed MOU naming measurable outcomes",
-          "status": "later"
+          "text": "Percent of employment partners with a signed partnership agreement naming measurable outcomes",
+          "status": "now"
         }
       ],
       "programGroups": [
@@ -930,7 +930,7 @@ window.FCS_DATA = {
         },
         {
           "id": "CI-05B",
-          "text": "School mobility rate at Slater, both neighborhoods (lower is better)",
+          "text": "School mobility rate at Slater and Dobbs (lower is better)",
           "status": "now"
         },
         {
@@ -952,7 +952,7 @@ window.FCS_DATA = {
         },
         {
           "id": "SH3",
-          "text": "xx% of students at Slater from the neighborhood who have the same address registered year after year",
+          "text": "xx% of neighborhood students at Slater or Dobbs who have the same address registered year after year",
           "status": "later"
         },
         {
